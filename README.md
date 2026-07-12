@@ -1,371 +1,395 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="Oh My Loop" width="200">
+
 # 🔄 Oh My Loop
 
-### The self-evolving AI agent skill collection that runs in a loop.
+**The self-evolving AI agent skill collection that runs in a loop.**
 
-**31 skills · 2-layer architecture · self-learning engine · bilingual**
+*Stop writing prompts from scratch. Give your AI agent battle-tested skills that loop, learn, and ship.*
 
 [![GitHub stars](https://img.shields.io/github/stars/Madapexai/oh-my-loop?style=social)](https://github.com/Madapexai/oh-my-loop)
 [![GitHub forks](https://img.shields.io/github/forks/Madapexai/oh-my-loop?style=social)](https://github.com/Madapexai/oh-my-loop)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Skills](https://img.shields.io/badge/skills-31-blue)]()
 [![Self-evolving](https://img.shields.io/badge/self--evolving-engine-green)]()
+[![Bilingual](https://img.shields.io/badge/i18n-中%2FEN-orange)]()
 
-**Stop writing prompts from scratch. Give your AI agent battle-tested skills that loop, learn, and ship.**
+**31 skills · 2-layer architecture · self-learning engine · bilingual (中/EN)**
 
-[Quick Start](#-quick-start) · [Architecture](#-architecture) · [Skills](#-skills) · [Principles](#-how-it-works) · [Contributing](#-contributing)
+[English](#english) · [中文](#中文) · [Quick Start](#-quick-start) · [Architecture](#-architecture) · [Live Demo](#-live-demo)
 
 </div>
 
 ---
 
-## 🎬 30秒看懂
+# English
 
-```bash
-# 安装
-git clone https://github.com/Madapexai/oh-my-loop.git ~/.oh-my-loop
+> Sounds boring. Let's try again.
+>
+> **Oh My Loop won't make your AI 10x smarter... but it will make it stop lying to you.**
 
-# 加载到你的 AI agent（Claude Code / Cursor / Trae / any LLM）
-export OH_MY_LOOP=~/.oh-my-loop
+Your AI agent says "done" without verifying. It says "should work" without running tests. It says "trust me" without evidence. **Oh My Loop fixes this.**
 
-# 用起来 — 对你的 AI 说：
-"用 topic-analyzer 分析一下 'AI编程' 这个选题"
-# → AI 自动加载 topic-analyzer skill，输出5维度分析
+## 🎬 Live Demo
 
-"写一篇关于 M-LOOP 的深度文章"
-# → article-writer 6步流水线启动
+### M-LOOP 9-Step Cycle
 
-"发布到8个平台"
-# → content-publisher 自动适配各平台格式
-```
+![M-LOOP Animation](assets/m-loop-animation.gif)
 
-就这样，你的 AI agent 现在有 **31个战场检验过的技能** 了。
+*Watch the 9-step paradigm in action: Probe → Plan → DAG → Record → Verify → Discuss → Decide → Confirm → Precipitate → (loop back)*
 
----
+### Two-Layer Architecture
+
+![Two-Layer Architecture](assets/two-layer-architecture.gif)
+
+*Core methodology engine (5 skills) + Apps application layer (26 skills) with self-evolving feedback loop.*
 
 ## 🧠 Why Oh My Loop?
 
-市面上的 AI skill 集合要么是**静态脚本**（写完就不变了），要么是**单层扁平结构**（20个skill堆在一起没有架构）。
+| Feature | Oh My Loop | baoyu-skills (23k⭐) | superpowers (252k⭐) | content-pipeline (200⭐) |
+|---------|------------|---------------------|----------------------|------------------------|
+| 🔄 Self-evolving engine | ✅ | ❌ | ❌ | ❌ |
+| 🏗️ 2-layer architecture | ✅ | ❌ flat | ❌ flat | ❌ flat |
+| 🛡️ Verification gates | ✅ 4 types | ❌ | ✅ | ❌ |
+| 📊 Multi-platform publish | ✅ 8 platforms | ✅ 5 | ❌ | ✅ 7 stages |
+| 🇨🇳 Chinese scene depth | ✅ | ✅ | ❌ | ✅ |
+| 💰 Cost control built-in | ✅ token-juice | ❌ | ❌ | ❌ |
+| 🔓 Open-source-first help | ✅ 5 levels | ❌ | ❌ | ❌ |
 
-**Oh My Loop 不一样：**
+## 🚀 Quick Start
 
-| 特性 | Oh My Loop | baoyu-skills (23k⭐) | superpowers (252k⭐) | content-pipeline (200⭐) |
-|------|------------|---------------------|----------------------|------------------------|
-| 🔄 自演化引擎 | ✅ skill会自己进化 | ❌ | ❌ | ❌ |
-| 🏗️ 两层架构（core+apps） | ✅ | ❌ 扁平 | ❌ 扁平 | ❌ 扁平 |
-| 🛡️ 验证门控 | ✅ 4类检查点 | ❌ | ✅ | ❌ |
-| 📊 多平台发布 | ✅ 8平台 | ✅ 5平台 | ❌ | ✅ 7阶段 |
-| 🇨🇳 中文场景深度 | ✅ | ✅ | ❌ | ✅ |
-| 💰 成本节约内置 | ✅ token-juice | ❌ | ❌ | ❌ |
-| 🔓 开源优先求助路径 | ✅ 5级阶梯 | ❌ | ❌ | ❌ |
+### Install
 
----
+| Method | Command |
+|--------|---------|
+| **git** | `git clone https://github.com/Madapexai/oh-my-loop.git ~/.oh-my-loop` |
+| **curl** | `sh -c "$(curl -fsSL https://raw.githubusercontent.com/Madapexai/oh-my-loop/main/install.sh)"` *(WIP)* |
+| **wget** | `sh -c "$(wget -O- https://raw.githubusercontent.com/Madapexai/oh-my-loop/main/install.sh)"` *(WIP)* |
+
+### Use with your AI agent
+
+**Claude Code / Trae / Cursor / any LLM:**
+
+```bash
+# Load all skills
+export OH_MY_LOOP=~/.oh-my-loop
+
+# Or selectively load core only
+cp -r ~/.oh-my-loop/core/* ~/.trae-cn/skills/
+```
+
+**Verify installation:**
+
+```bash
+ls ~/.oh-my-loop/core/    # 5 skills
+ls ~/.oh-my-loop/apps/    # 26 skills
+```
+
+**Try it - tell your AI:**
+
+> "Use topic-analyzer to analyze the topic 'AI programming'"
+
+Your AI now has 31 battle-tested skills. That's it. 🎉
 
 ## 🏗️ Architecture
 
-Oh My Loop 采用**两层架构**：底层是方法论核心引擎，上层是具体应用场景。
-
-```mermaid
-graph TB
-    subgraph "🧠 应用层 Apps — 具体场景"
-        CL["📝 ContentLoop<br/>内容闭环"]
-        OS["📊 Opportunity System<br/>商机发现"]
-        PM["💳 Payment<br/>支付集成"]
-        AP["🔮 AI Prism<br/>双语专栏"]
-    end
-
-    subgraph "⚙️ 底层 Core — 方法论引擎"
-        TS["📋 team-sop<br/>团队规范总目录"]
-        TH["🤔 think-like-human<br/>像人一样思考"]
-        VG["🛡️ verification-gate<br/>验证门控"]
-        CC["💰 cost-consciousness<br/>成本节约"]
-        OF["🔓 open-source-first<br/>开源优先"]
-    end
-
-    subgraph "🔄 Loop Engine — 闭环引擎"
-        P["Probe 探查"]
-        PL["Plan 规划"]
-        D["DAG 子任务"]
-        R["Record 记录"]
-        V["Verify 验证"]
-        DI["Discuss 讨论"]
-        DE["Decide 决策"]
-        C["Confirm 印证"]
-        PR["Precipitate 沉淀"]
-        
-        P --> PL --> D --> R --> V
-        V --> DI --> DE --> C --> PR
-        PR -.->|"反馈循环"| P
-    end
-
-    CL --> TS
-    OS --> TS
-    PM --> TS
-    AP --> TS
-    
-    CL --> TH
-    CL --> VG
-    CL --> CC
-    
-    TS --> P
-    TH --> PL
-    VG --> V
-    CC --> D
-    OF --> DI
-
-    style TS fill:#e74c3c,color:#fff
-    style TH fill:#e74c3c,color:#fff
-    style VG fill:#e74c3c,color:#fff
-    style CL fill:#3498db,color:#fff
-    style OS fill:#3498db,color:#fff
-    style P fill:#2ecc71,color:#fff
-    style V fill:#f39c12,color:#fff
-    style PR fill:#9b59b6,color:#fff
-```
-
-### 📁 目录结构
-
 ```
 oh-my-loop/
-├── core/                          # ⚙️ 底层：方法论引擎（5 skills）
-│   ├── team-sop/                  #   团队规范总目录（索引）
-│   ├── think-like-human/          #   像人一样思考方法论
-│   ├── verification-gate/         #   验证门控与检查点
-│   ├── cost-consciousness/        #   成本节约（token-juice）
-│   └── open-source-first/         #   开源社区求助路径
+├── core/                          # ⚙️ Methodology engine (5 skills)
+│   ├── team-sop/                  #   Team SOP master index
+│   ├── think-like-human/          #   Think like a human methodology
+│   ├── verification-gate/         #   Verification gates & checkpoints
+│   ├── cost-consciousness/        #   Cost saving (token-juice)
+│   └── open-source-first/         #   Open-source community help path
 │
-├── apps/                          # 🧠 应用层：具体场景
-│   ├── content-loop/              #   内容闭环（原ContentOS，20 skills）
-│   │   ├── content-os/            #     总调度
-│   │   ├── topics/                #     选题（topic-analyzer等3个）
-│   │   ├── writing/               #     写作（article-writer等4个）
-│   │   ├── publishing/            #     发布（content-publisher等3个）
-│   │   ├── strategy/              #     策略（content-strategist等7个）
-│   │   └── learning/              #     自学习（self-learn）
-│   ├── opportunity-system/        #   商机发现系统
-│   ├── payment/                   #   支付集成（creem + alipay）
-│   └── ai-prism/                  #   AI Prism双语专栏
+├── apps/                          # 🧠 Application scenarios (26 skills)
+│   ├── content-loop/              #   Content loop (20 skills)
+│   │   ├── topics/                #     Topic research (3)
+│   │   ├── writing/               #     Writing (4)
+│   │   ├── publishing/            #     Publishing (3)
+│   │   ├── strategy/              #     Strategy (7)
+│   │   └── learning/              #     Self-learning (1)
+│   ├── opportunity-system/        #   Opportunity discovery
+│   ├── payment/                   #   Payment integration
+│   └── ai-prism/                  #   Bilingual column
 │
-├── docs/                          # 📚 文档
-│   ├── architecture.md            #   架构详解
-│   ├── principles.md              #   动效原理
-│   └── loop-engineering.md        #   Loop工程橙皮书
+├── docs/                          # 📚 Documentation
+│   ├── architecture.md            #   Architecture deep dive
+│   └── principles.md               #   How it works (principles)
 │
-└── plugins/                       # 🔌 插件扩展
-    └── README.md                  #   插件开发指南
+└── plugins/                       # 🔌 Plugin extensions
 ```
-
----
 
 ## ⚙️ How It Works
 
-Oh My Loop 的核心是 **M-LOOP 范式**（Multi-perspective Loop with Objective-Oriented Verification）— 一个让 AI agent 像人一样思考、验证、进化的闭环。
+### M-LOOP 9-Step Paradigm
 
 ```mermaid
 flowchart LR
-    subgraph "M-LOOP 9步闭环"
-        P[1.Probe<br/>探查] --> PL[2.Plan<br/>规划]
-        PL --> D[3.DAG<br/>子任务分解]
-        D --> R[4.Record<br/>中间产物记录]
-        R --> V[5.Verify<br/>验证检查点]
-        V --> DI[6.Discuss<br/>多视角讨论]
-        DI --> DE[7.Decide<br/>决策]
-        DE --> C[8.Confirm<br/>印证]
-        C --> PR[9.Precipitate<br/>沉淀]
-        PR -.->|"自演化反馈"| P
-    end
+    P[1.Probe] --> PL[2.Plan]
+    PL --> D[3.DAG]
+    D --> R[4.Record]
+    R --> V[5.Verify]
+    V --> DI[6.Discuss]
+    DI --> DE[7.Decide]
+    DE --> C[8.Confirm]
+    C --> PR[9.Precipitate]
+    PR -.->|"self-evolving"| P
 
     style P fill:#3498db,color:#fff
     style V fill:#e74c3c,color:#fff
     style PR fill:#9b59b6,color:#fff
 ```
 
-### 🔄 三个核心机制
+### 6 Iron Laws (non-negotiable)
 
-#### 1. Iron Laws 铁律（不可妥协）
+| # | Law | Trigger |
+|---|-----|---------|
+| 1 | **No Goal, No Action** | Before accepting a task |
+| 2 | **No Verification, No Claim** | Before claiming done |
+| 3 | **No Root Cause, No Fix** | Before fixing bugs |
+| 4 | **Think Like a Human** | When researching/deciding |
+| 5 | **Open-Source First** | When stuck |
+| 6 | **Use mention API for @** | When @-mentioning |
 
-| 铁律 | 触发场景 | 说明 |
-|------|----------|------|
-| 无Goal不行动 | 接任务前 | 必须有明确goal和客观验收标准 |
-| 无验证不声称 | 声称完成前 | 必须跑验证命令，出示新鲜证据 |
-| 无根因不修复 | 修bug前 | 必须完成根因调查，不猜不试 |
-| 像人一样思考 | 调研/决策 | 多问自己，多视角，多辩论 |
-| 开源优先 | 不懂/卡住 | 90%概率开源社区有答案 |
-| 飞书@用mention API | @人时 | 禁止文字@，零容忍 |
+📖 Full principles: [docs/principles.md](docs/principles.md)
 
-#### 2. Gate Functions 门控函数
+## 📦 Skills Overview
 
-每个关键动作都有自动验证门控：
+### Core (5 skills)
 
-```python
-# 完成声称门控（伪代码）
-def claim_complete(task):
-    cmd = identify_verification_command(task)   # 1. 什么命令能证明？
-    output = run(cmd)                           # 2. 执行（新鲜输出）
-    result = read_full(output)                  # 3. 完整读取
-    if verify(result, task.dod):                # 4. 验证
-        return claim_with_evidence(result)     # 5. 带证据声称
-    else:
-        return state_with_evidence(result)      # 诚实陈述实际状态
-```
+| Skill | What it does |
+|-------|-------------|
+| [team-sop](core/team-sop/) | Master index + 6 Iron Laws |
+| [think-like-human](core/think-like-human/) | 10 dimensions × 50 questions + multi-perspective debate |
+| [verification-gate](core/verification-gate/) | 4 checkpoint types + 12 Red Flags + rationalization prevention |
+| [cost-consciousness](core/cost-consciousness/) | Token saving + free-first + hidden cost detection |
+| [open-source-first](core/open-source-first/) | 5-level help ladder + 8 community sources |
 
-#### 3. Self-Evolution 自演化引擎
+### Apps (26 skills)
 
-```mermaid
-graph LR
-    U[用户使用skill] --> F[反馈记录]
-    F --> A[3层记忆系统]
-    A -->|短期| WM[工作记忆<br/>当前会话]
-    A -->|中期| EM[情景记忆<br/>最近7天]
-    A -->|长期| PM[程序记忆<br/>永久skill优化]
-    PM -->|更新参数| U
-    PM -->|沉淀知识| K[(知识图谱)]
-    
-    style A fill:#9b59b6,color:#fff
-    style PM fill:#e74c3c,color:#fff
-    style K fill:#2ecc71,color:#fff
-```
+<details>
+<summary><b>📝 ContentLoop (20 skills) - click to expand</b></summary>
 
-**skill 不是静态的** — 每次使用都会记录反馈，self-learn 引擎自动优化参数，越用越懂你的风格。
+| Category | Skill | Description |
+|----------|-------|-------------|
+| Topics | topic-analyzer | 5-dimension topic analysis |
+| | topic-monitor | Topic monitoring + change alerts |
+| | trending-discover | 8-channel trending discovery |
+| Writing | article-writer | 6 title formulas + 6 structures |
+| | humanize-writing | De-AI-ify rewriting |
+| | novel-writer | Novel 6-step pipeline |
+| | video-script-writer | Video script + 6-layer pipeline |
+| Publishing | content-publisher | 8-platform adaptation |
+| | auto-publisher | Auto-publish engine |
+| | cross-platform-sync | Cross-platform sync strategy |
+| Strategy | content-strategist | Positioning + 12-month roadmap |
+| | content-marketing | AARRR growth + 4 viral formulas |
+| | content-analytics | Funnel analysis + A/B testing |
+| | content-repurposer | One-to-many adaptation |
+| | author-analyzer | Author deep-dive analysis |
+| | comment-analyzer | Comment 4-dimension analysis |
+| | knowledge-monetization | Monetization pyramid + MVP |
+| Self-learning | self-learn | 3-layer memory + 4 evolution mechanisms |
+| Master | content-os | ContentLoop master dispatcher |
+| | content-os-quickstart | 5-minute quick start |
 
-> 📖 详细原理见 [docs/principles.md](docs/principles.md)
+</details>
 
----
+<details>
+<summary><b>💳 Payment / 🔮 AI Prism / 📊 Opportunity System (11 skills)</b></summary>
 
-## 🚀 Quick Start
+| App | Skill | Description |
+|-----|-------|-------------|
+| Payment | creem-payment-integration | Creem cross-border payment (primary) |
+| | alipay-payment-integration | Alipay domestic backup |
+| AI Prism | ai-prism-writer | Bilingual writing standards |
+| | ai-prism-publisher | Cross-platform publishing cadence |
+| | ai-prism-repo | GitHub repo management + commit format |
+| Opportunity | opportunity-system | 6-channel scan + 5-dim scoring + knowledge graph |
 
-### 方式1：直接克隆（推荐）
-
-```bash
-git clone https://github.com/Madapexai/oh-my-loop.git ~/.oh-my-loop
-```
-
-### 方式2：选择性地加载skill
-
-```bash
-# 只加载底层core
-cp -r ~/.oh-my-loop/core/* ~/.trae-cn/skills/
-
-# 或只加载内容闭环应用
-cp -r ~/.oh-my-loop/apps/content-loop/* ~/.trae-cn/skills/
-```
-
-### 方式3：在你的AI agent中引用
-
-**Claude Code / Trae / Cursor：**
-
-在你的项目 `AGENTS.md` 或 `.claude/skills` 中添加引用：
-
-```markdown
-## Skill Loading
-- Core methodology: ~/.oh-my-loop/core/
-- Content apps: ~/.oh-my-loop/apps/content-loop/
-```
-
-**验证安装：**
-
-```bash
-# 列出所有skill
-ls ~/.oh-my-loop/core/
-ls ~/.oh-my-loop/apps/
-
-# 应该看到：
-# core/         → 5 skills (team-sop, think-like-human, ...)
-# apps/         → 26 skills (content-loop, payment, ai-prism, ...)
-```
-
----
-
-## 📦 Skills
-
-### ⚙️ Core（底层方法论，5 skills）
-
-| Skill | 做什么 | 关键能力 |
-|-------|--------|----------|
-| [team-sop](core/team-sop/) | 团队规范总目录 | 6大铁律 + 门控函数索引 + 检查点清单 |
-| [think-like-human](core/think-like-human/) | 像人一样思考 | 10维度×50问题 + 多视角辩论 + 不着急回复 |
-| [verification-gate](core/verification-gate/) | 验证门控 | 4类检查点 + Red Flags + 合理化预防表 |
-| [cost-consciousness](core/cost-consciousness/) | 成本节约 | Token节约 + 免费资源优先 + 隐性成本识别 |
-| [open-source-first](core/open-source-first/) | 开源求助 | 5级求助阶梯 + 8社区查询清单 |
-
-### 🧠 Apps（应用层，26 skills）
-
-#### 📝 ContentLoop — 内容闭环（20 skills）
-
-| 类别 | Skill | 做什么 |
-|------|-------|--------|
-| **选题** | [topic-analyzer](apps/content-loop/topics/topic-analyzer/) | 5维度选题分析 |
-| | [topic-monitor](apps/content-loop/topics/topic-monitor/) | 话题监测+变更告警 |
-| | [trending-discover](apps/content-loop/topics/trending-discover/) | 8渠道热点发现 |
-| **写作** | [article-writer](apps/content-loop/writing/article-writer/) | 6标题公式+6结构+15自检 |
-| | [humanize-writing](apps/content-loop/writing/humanize-writing/) | 去AI感改写 |
-| | [novel-writer](apps/content-loop/writing/novel-writer/) | 小说6步流水线 |
-| | [video-script-writer](apps/content-loop/writing/video-script-writer/) | 视频脚本+6层流水线 |
-| **发布** | [content-publisher](apps/content-loop/publishing/content-publisher/) | 8平台适配规则 |
-| | [auto-publisher](apps/content-loop/publishing/auto-publisher/) | 自动化发布引擎 |
-| | [cross-platform-sync](apps/content-loop/publishing/cross-platform-sync/) | 跨平台同步策略 |
-| **策略** | [content-strategist](apps/content-loop/strategy/content-strategist/) | 定位三角+12月路线图 |
-| | [content-marketing](apps/content-loop/strategy/content-marketing/) | AARRR增长+4爆款公式 |
-| | [content-analytics](apps/content-loop/strategy/content-analytics/) | 漏斗分析+A/B测试 |
-| | [content-repurposer](apps/content-loop/strategy/content-repurposer/) | 一鱼多吃改编矩阵 |
-| | [author-analyzer](apps/content-loop/strategy/author-analyzer/) | 对标作者拆解 |
-| | [comment-analyzer](apps/content-loop/strategy/comment-analyzer/) | 评论区4维度分析 |
-| | [knowledge-monetization](apps/content-loop/strategy/knowledge-monetization/) | 变现金字塔+MVP验证 |
-| **自学习** | [self-learn](apps/content-loop/learning/self-learn/) | 3层记忆+4进化机制 |
-| **总调度** | [content-os](apps/content-loop/content-os/) | ContentLoop总目录 |
-| | [content-os-quickstart](apps/content-loop/content-os-quickstart/) | 5分钟上手指南 |
-
-#### 💳 Payment — 支付集成（2 skills）
-
-| Skill | 做什么 |
-|-------|--------|
-| [creem-payment-integration](apps/payment/creem-payment-integration/) | Creem跨境支付（首选） |
-| [alipay-payment-integration](apps/payment/alipay-payment-integration/) | 支付宝国内备选 |
-
-#### 🔮 AI Prism — 双语专栏（3 skills）
-
-| Skill | 做什么 |
-|-------|--------|
-| [ai-prism-writer](apps/ai-prism/ai-prism-writer/) | AI Prism双语写作规范 |
-| [ai-prism-publisher](apps/ai-prism/ai-prism-publisher/) | 跨平台发布频率表 |
-| [ai-prism-repo](apps/ai-prism/ai-prism-repo/) | GitHub仓库管理+commit格式 |
-
-#### 📊 Opportunity System — 商机发现（1 skill）
-
-| Skill | 做什么 |
-|-------|--------|
-| [opportunity-system](apps/opportunity-system/) | 6渠道扫描+五维打分+知识图谱 |
-
----
+</details>
 
 ## 🆚 Comparison
 
 ### vs baoyu-skills (23k⭐)
 
-baoyu-skills 是宝玉开源的 Claude Code skill 合集，**扁平结构**，覆盖内容理解/改写/封面/PPT。
+baoyu-skills is a great flat collection of Claude Code skills.
 
-**Oh My Loop 的区别：**
-- ✅ **两层架构**：core 方法论 + apps 应用场景，不是扁平堆叠
-- ✅ **自演化引擎**：skill 会自己进化，baoyu-skills 是静态的
-- ✅ **验证门控**：4类检查点确保质量，baoyu-skills 没有
-- ✅ **Loop范式**：M-LOOP 9步闭环，baoyu-skills 没有闭环概念
+**Oh My Loop's differences:**
+- ✅ **2-layer architecture**: core methodology + apps scenarios (not flat)
+- ✅ **Self-evolving engine**: skills learn from usage (baoyu-skills are static)
+- ✅ **Verification gates**: 4 checkpoint types (baoyu-skills has none)
+- ✅ **M-LOOP paradigm**: 9-step closed loop (baoyu-skills has no loop concept)
 
 ### vs superpowers (252k⭐)
 
-superpowers 是通用 agentic skills framework，**不是内容专用**。
+superpowers is a general agentic skills framework, not content-specific.
 
-**Oh My Loop 的区别：**
-- ✅ **内容专用**：20+ 内容创作skill，superpowers 是通用工作流
-- ✅ **中文场景**：深度适配小红书/知乎/公众号/B站，superpowers 是英文生态
-- ✅ **成本内置**：cost-consciousness skill 内置 token 节约，superpowers 没有
-- ✅ **开源优先**：open-source-first skill 内置求助路径，superpowers 没有
+**Oh My Loop's differences:**
+- ✅ **Content-specific**: 20+ content creation skills (superpowers is general workflow)
+- ✅ **Chinese scene**: deep adaptation for Xiaohongshu/Zhihu/WeChat (superpowers is English)
+- ✅ **Cost built-in**: cost-consciousness skill (superpowers has none)
+- ✅ **Open-source-first**: built-in help ladder (superpowers has none)
+
+## 🤝 Contributing
+
+Contributions welcome! Even just fixing a typo.
+
+1. **Fork** the repo
+2. **Create branch**: `git checkout -b feat/your-skill-name`
+3. **Write skill**: follow [the template](core/team-sop/SKILL.md)
+4. **Add examples**: at least 3 usage examples
+5. **Submit PR**: one skill per PR
+
+📖 Full guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+### Do Not Send Us...
+
+- ❌ Theme-only PRs (we don't accept visual themes)
+- ❌ Skill duplicates (check existing skills first)
+- ❌ Skills without verification gates
 
 ---
 
-## 🔌 Plugins
+# 中文
 
-Oh My Loop 支持插件扩展。以下插件正在开发或已兼容：
+> 听起来无聊？再试一次。
+>
+> **Oh My Loop 不会让你的 AI 聪明 10 倍...但它会让它不再对你撒谎。**
+
+你的 AI agent 说"完成了"却不验证。说"应该可以了"却不跑测试。说"相信我"却没证据。**Oh My Loop 解决这个问题。**
+
+## 🧠 为什么选 Oh My Loop？
+
+| 特性 | Oh My Loop | baoyu-skills (23k⭐) | superpowers (252k⭐) | content-pipeline (200⭐) |
+|------|------------|---------------------|----------------------|------------------------|
+| 🔄 自演化引擎 | ✅ | ❌ | ❌ | ❌ |
+| 🏗️ 两层架构 | ✅ | ❌ 扁平 | ❌ 扁平 | ❌ 扁平 |
+| 🛡️ 验证门控 | ✅ 4类 | ❌ | ✅ | ❌ |
+| 📊 多平台发布 | ✅ 8平台 | ✅ 5 | ❌ | ✅ 7阶段 |
+| 🇨🇳 中文场景深度 | ✅ | ✅ | ❌ | ✅ |
+| 💰 成本控制内置 | ✅ token-juice | ❌ | ❌ | ❌ |
+| 🔓 开源优先求助 | ✅ 5级阶梯 | ❌ | ❌ | ❌ |
+
+## 🚀 快速开始
+
+```bash
+# 克隆
+git clone https://github.com/Madapexai/oh-my-loop.git ~/.oh-my-loop
+
+# 加载到你的 AI agent
+export OH_MY_LOOP=~/.oh-my-loop
+
+# 或者只加载底层 core
+cp -r ~/.oh-my-loop/core/* ~/.trae-cn/skills/
+```
+
+**验证安装：**
+
+```bash
+ls ~/.oh-my-loop/core/    # 5 个底层 skill
+ls ~/.oh-my-loop/apps/    # 26 个应用 skill
+```
+
+**试用 - 对你的 AI 说：**
+
+> "用 topic-analyzer 分析一下'AI编程'这个选题"
+
+你的 AI 现在有 31 个战场检验过的技能了。就这么简单。🎉
+
+## ⚙️ 工作原理
+
+### M-LOOP 9步闭环范式
+
+```mermaid
+flowchart LR
+    P[1.探查] --> PL[2.规划]
+    PL --> D[3.子任务]
+    D --> R[4.记录]
+    R --> V[5.验证]
+    V --> DI[6.讨论]
+    DI --> DE[7.决策]
+    DE --> C[8.印证]
+    C --> PR[9.沉淀]
+    PR -.->|"自演化反馈"| P
+
+    style P fill:#3498db,color:#fff
+    style V fill:#e74c3c,color:#fff
+    style PR fill:#9b59b6,color:#fff
+```
+
+### 6大铁律（不可妥协）
+
+| # | 铁律 | 触发场景 |
+|---|------|----------|
+| 1 | **无Goal不行动** | 接任务前 |
+| 2 | **无验证不声称** | 声称完成前 |
+| 3 | **无根因不修复** | 修bug前 |
+| 4 | **像人一样思考** | 调研/决策时 |
+| 5 | **开源优先** | 卡住时 |
+| 6 | **飞书@用mention API** | @人时 |
+
+📖 完整原理：[docs/principles.md](docs/principles.md)
+
+## 📦 Skills 一览
+
+### 底层 Core（5个）
+
+| Skill | 做什么 |
+|-------|--------|
+| [team-sop](core/team-sop/) | 总目录 + 6大铁律索引 |
+| [think-like-human](core/think-like-human/) | 10维度×50问题 + 多视角辩论 |
+| [verification-gate](core/verification-gate/) | 4类检查点 + 12条Red Flags + 合理化预防表 |
+| [cost-consciousness](core/cost-consciousness/) | Token节约 + 免费优先 + 隐性成本识别 |
+| [open-source-first](core/open-source-first/) | 5级求助阶梯 + 8社区查询清单 |
+
+### 应用层 Apps（26个）
+
+<details>
+<summary><b>📝 ContentLoop 内容闭环（20个）- 点击展开</b></summary>
+
+| 类别 | Skill | 说明 |
+|------|-------|------|
+| 选题 | topic-analyzer | 5维度选题分析 |
+| | topic-monitor | 话题监测+变更告警 |
+| | trending-discover | 8渠道热点发现 |
+| 写作 | article-writer | 6标题公式+6结构 |
+| | humanize-writing | 去AI感改写 |
+| | novel-writer | 小说6步流水线 |
+| | video-script-writer | 视频脚本+6层流水线 |
+| 发布 | content-publisher | 8平台适配规则 |
+| | auto-publisher | 自动化发布引擎 |
+| | cross-platform-sync | 跨平台同步策略 |
+| 策略 | content-strategist | 定位三角+12月路线图 |
+| | content-marketing | AARRR增长+4爆款公式 |
+| | content-analytics | 漏斗分析+A/B测试 |
+| | content-repurposer | 一鱼多吃改编矩阵 |
+| | author-analyzer | 对标作者拆解 |
+| | comment-analyzer | 评论区4维度分析 |
+| | knowledge-monetization | 变现金字塔+MVP验证 |
+| 自学习 | self-learn | 3层记忆+4进化机制 |
+| 总调度 | content-os | ContentLoop总目录 |
+| | content-os-quickstart | 5分钟上手指南 |
+
+</details>
+
+<details>
+<summary><b>💳 Payment / 🔮 AI Prism / 📊 商机系统（11个）</b></summary>
+
+| 应用 | Skill | 说明 |
+|-----|-------|------|
+| 支付 | creem-payment-integration | Creem跨境支付（首选） |
+| | alipay-payment-integration | 支付宝国内备选 |
+| AI Prism | ai-prism-writer | 双语写作规范 |
+| | ai-prism-publisher | 跨平台发布频率表 |
+| | ai-prism-repo | GitHub仓库管理+commit格式 |
+| 商机 | opportunity-system | 6渠道扫描+五维打分+知识图谱 |
+
+</details>
+
+## 🔌 插件
 
 | 插件 | 状态 | 说明 |
 |------|------|------|
@@ -373,70 +397,40 @@ Oh My Loop 支持插件扩展。以下插件正在开发或已兼容：
 | [loop-engineering](plugins/) | 📋 Planned | Loop工程方法论插件 |
 | [voko-skills](plugins/) | 📋 Planned | VokoForge AI Agent Skills 兼容层 |
 
-> 📖 插件开发指南见 [plugins/README.md](plugins/README.md)
+## 🤝 贡献
 
----
-
-## 🤝 Contributing
-
-欢迎PR！哪怕只是修一个typo。
-
-### 贡献流程
+欢迎 PR！哪怕只是修一个 typo。
 
 1. **Fork** 仓库
 2. **创建分支**：`git checkout -b feat/your-skill-name`
-3. **写skill**：参考 [template-skill](core/team-sop/SKILL.md) 的格式
-4. **加测试**：至少3个使用示例
-5. **提PR**：一个skill一个PR
+3. **写skill**：参考 [模板](core/team-sop/SKILL.md)
+4. **加示例**：至少 3 个使用示例
+5. **提PR**：一个 skill 一个 PR
 
-### Skill 编写规范
+📖 完整指南：[CONTRIBUTING.md](CONTRIBUTING.md)
 
-每个skill必须包含：
+### 不要发这些 PR
 
-```markdown
----
-name: your-skill-name
-version: 1.0.0
-description: "一句话说清做什么。当用户XXX时使用。"
----
-
-# Skill 名称
-
-## 核心理念
-## 使用场景
-## 工作流
-## 检查点
-## 相关skill引用
-```
-
-### 贡献者
-
-感谢所有贡献者 🙏
-
-[contributors placeholder - 将通过 GitHub Actions 自动生成]
+- ❌ 纯主题 PR（我们不收视觉主题）
+- ❌ 重复 skill（先检查已有 skill）
+- ❌ 没有验证门控的 skill
 
 ---
 
-## 📄 License
-
-[MIT](LICENSE) — 随便用，改了记得留个名就行。
-
----
+<div align="center">
 
 ## ⭐ Star History
 
-<div align="center">
-
 如果这个项目对你有帮助，点个 Star ⭐ 支持一下！
 
-</div>
+[![Star History Chart](https://api.star-history.com/svg?repos=Madapexai/oh-my-loop&type=Date)](https://star-history.com/#Madapexai/oh-my-loop&Date)
 
 ---
-
-<div align="center">
 
 **🔄 Loop everything. Learn every loop. Ship every day.**
 
 Made with 🤝 by [Madapexai](https://github.com/Madapexai) · [MindApex](https://github.com/Madapexai)
+
+[📝 Promotion Materials](assets/promotion-text.md) · [🎬 Video Script](assets/video-script.md) · [🎨 Assets](assets/)
 
 </div>
