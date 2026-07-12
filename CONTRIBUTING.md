@@ -1,127 +1,58 @@
-# 🤝 Contributing to Oh My Loop
+# Contributing to Oh My Loop
 
-感谢你有兴趣贡献 Oh My Loop！这个项目欢迎任何形式的贡献。
+Thanks for your interest! This project accepts contributions that make loops smarter, not more complex.
 
-## 快速贡献
+## What we accept
 
-### 修typo / 小修复
+### New patterns
 
-1. Fork 仓库
-2. 直接在 GitHub Web 界面编辑
-3. 提PR
+A new pattern is accepted if:
+- It handles a failure mode that existing patterns don't
+- It has a clear "when to use / when NOT to use"
+- It has termination conditions (no infinite loops)
+- It has at least one end-to-end example
 
-### 新增skill
+### New examples
 
-1. **Fork & Clone**
-```bash
-git clone https://github.com/<your-username>/oh-my-loop.git
-```
+A new example is accepted if:
+- It's end-to-end (analysis, pattern choice, loop run, result)
+- It includes verification commands
+- It's not company-specific (no internal tools, no proprietary names)
 
-2. **创建分支**
-```bash
-git checkout -b feat/your-skill-name
-```
+### Improvements to existing patterns
 
-3. **创建skill目录**
-```bash
-# 底层方法论
-mkdir -p core/your-skill-name
+Improvements are accepted if:
+- They address a failure mode the current pattern misses
+- They don't add complexity without value
 
-# 或应用层
-mkdir -p apps/<scenario>/your-skill-name
-```
+## What we do NOT accept
 
-4. **写 SKILL.md**（参考 [template](core/team-sop/SKILL.md)）
+- Company-specific SOPs disguised as generic patterns
+- "Loop for everything" wrappers (if it's one step, just do it)
+- Patterns without failure-mode analysis
+- Patterns that ask the user to choose instead of deciding based on context
+- Anything that bakes in a specific tool/vendor
 
-5. **本地测试**
-```bash
-# 复制到你的trae skills目录测试
-cp -r core/your-skill-name ~/.trae-cn/skills/
-```
+## How to contribute
 
-6. **提PR**
-```bash
-git add .
-git commit -m "feat: add your-skill-name skill"
-git push origin feat/your-skill-name
-```
+1. Fork the repo
+2. Read [using-oh-my-loop](using-oh-my-loop/SKILL.md) and [write-a-loop](write-a-loop/SKILL.md) first
+3. Create your pattern/example following the existing structure
+4. Test it against at least 3 scenarios
+5. Open a PR with:
+   - The new file(s)
+   - A brief explanation of what failure mode it addresses
+   - At least one worked example
 
-## Skill 编写规范
+## Skill writing conventions
 
-### 必须包含的元素
+- All skill content in English (docs can be bilingual)
+- Use YAML frontmatter with name + description
+- Description is a trigger ("when to use me"), not a summary
+- Use progressive disclosure: short SKILL.md, details in references/
+- Every pattern must have termination conditions
+- Every pattern must have a degradation path
 
-```markdown
----
-name: your-skill-name
-version: 1.0.0
-description: "一句话说清做什么。当用户XXX时使用。"
----
+## License
 
-# Skill 名称
-
-> 📝 如果有改名/调整历史，写在这里
-
-## 🎯 核心理念
-（这个skill解决什么问题，为什么这样设计）
-
-## 📋 使用场景
-（什么情况下用这个skill）
-
-## 🔄 工作流
-（具体步骤，最好有Mermaid图）
-
-## ✅ 检查点
-（每个阶段的验证清单）
-
-## 🔗 相关skill引用
-（引用其他skill的相对路径）
-```
-
-### 质量要求
-
-- [ ] 有使用示例（至少3个）
-- [ ] 有Mermaid架构图（如果适用）
-- [ ] 有检查点清单
-- [ ] 引用了core的skill（如果是app层）
-- [ ] 没有重复已有skill的功能
-
-### 命名规范
-
-- skill名：`kebab-case`（如 `topic-analyzer`）
-- 目录名：与skill名一致
-- 文件名：`SKILL.md`（大写）
-
-## PR 审查清单
-
-审阅者会检查：
-
-- [ ] SKILL.md 格式正确
-- [ ] 有YAML frontmatter
-- [ ] 引用路径正确（相对路径）
-- [ ] 没有硬编码绝对路径
-- [ ] 没有敏感信息（token/password）
-- [ ] 中英文标点正确
-
-## 行为准则
-
-- 尊重所有贡献者
-- 用数据说话，不用情绪
-- 带着意见思考——提问题附带解决方案
-- 对社区坦诚——问题及时汇报
-
-## 发布流程
-
-维护者会：
-
-1. 审查PR（1-3天）
-2. 合并到 main
-3. 更新版本号
-4. 发布release notes
-
-## 联系方式
-
-- GitHub Issues：bug报告 + feature请求
-- GitHub Discussions：问答 + 讨论
-- 邮件：madapexai@users.noreply.github.com
-
-感谢你的贡献！🙏
+By contributing, you agree your contributions are licensed under the MIT license.
