@@ -39,6 +39,25 @@ Oh My Loop fixes these by giving you:
 
 > Good loops are not "teach the agent what to do" — they are "predict where the agent will fail, and block it preemptively."
 
+## 🎬 Demo Video
+
+[![Oh My Loop Demo](assets/og-image.png)](assets/demo-video.mp4)
+
+**60-second demo**: trivial tasks get direct answers, complex tasks pick a pattern automatically.
+
+<details>
+<summary>Watch the demo (60s, 800KB)</summary>
+
+```bash
+# Download and play
+curl -L https://raw.githubusercontent.com/Madapexai/oh-my-loop/main/assets/demo-video.mp4 -o demo.mp4
+open demo.mp4  # macOS
+```
+
+Or watch on [YouTube](#) (TBD).
+
+</details>
+
 ## 🎬 How it works
 
 ![Smart Routing](assets/smart-routing.gif)
