@@ -60,3 +60,19 @@ Done. Cost: ~8000 tokens, ~30 minutes. 2 attempts.
 
 - [reflexion](../../core/patterns/reflexion/SKILL.md) - The pattern used
 - [self-questioning](../../core/components/self-questioning/SKILL.md) - For reflecting on failure
+
+
+## Failure branch
+
+What if the loop fails? One realistic failure scenario and how reflexion handles it.
+
+- **Failure**: Attempt 1 hypothesized a race condition in session creation and added a mutex. The integration test still failed intermittently - the mutex was irrelevant to the actual root cause.
+- **Handling**: reflexion's Reflect phase kicks in. Instead of trying another random fix, it re-reads the logs and notices failures cluster around 3-4 AM UTC (nightly batch window). The old hypothesis is discarded; a new hypothesis (DB connection pool exhaustion) is formed from evidence, not guessing.
+- **Result**: Attempt 2 increases the pool size and adds a connection timeout. The test passes 100 times in a row. Without the Reflect phase, the agent might have tried 3 more irrelevant fixes and hit the attempt cap.
+
+## Why this pattern, not others
+
+- **Why not react?** We have a specific bug to fix, not open exploration. The shape of the problem is "hypothesize -> verify -> learn", which is exactly reflexion's loop. React's Thought/Action/Observation is for discovering unknown steps, not for converging on a root cause.
+- **Why not plan-execute?** The root cause is unknown upfront - we can't plan "step 1: fix the bug" because we don't know what the bug is. Plan-execute needs a decomposable plan; debugging needs trial-and-learn.
+- **Why not multi-agent?** Single bug, single fix path. Multiple reviewers won't help - the bottleneck is evidence (logs, reproduction), not perspective.
+- **Why not self-refine?** Bug fixing is binary (repro passes or not), not subjective polish. There's no "make the fix better" - there's only "did it work?".

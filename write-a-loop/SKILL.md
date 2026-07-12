@@ -114,3 +114,55 @@ If any test fails, go back to the step that's broken. Do not publish a loop that
 - [core/patterns/](../core/patterns/) - Existing patterns to extend
 - [core/components/](../core/components/) - Reusable pieces
 - [examples/](../examples/) - Few-shot templates
+
+
+## Dogfooding: how we designed Oh My Loop itself
+
+We used this 5-step flow to design Oh My Loop. Here's the record.
+
+### Step 1: Define goal
+
+- **What**: A methodology that helps anyone design a good agentic loop
+- **Why**: Most people don't know when to loop, which pattern to use, or when to stop. Existing frameworks (LangGraph, AutoGen) provide runtime but not methodology.
+- **Success**: A user can pick the right pattern in <5 minutes; a new loop can be designed in <30 minutes following the 5-step flow
+- **Failure modes**:
+  1. User wraps every task in a loop (over-engineering)
+  2. User claims "done" without verifying (under-verifying)
+  3. User asks which pattern to use instead of deciding from context
+  4. Patterns are too abstract to compose
+  5. No code implementation - "PPT open source"
+
+### Step 2: Choose pattern
+
+- Failure mode #1 (over-engineering) -> `using-oh-my-loop` router decides if loop is needed
+- Failure mode #2 (under-verifying) -> `verify-before-claim` component
+- Failure mode #3 (user picks) -> router auto-decides by failure mode
+- Failure mode #4 (too abstract) -> examples show concrete composition
+- Failure mode #5 (no code) -> `reference-implementations/` provides Python+TS
+
+### Step 3: Checkpoints
+
+- Entry: user has a task
+- Exit: user knows if they need a loop, and if so, which pattern
+- Failure: user still asks "which pattern" -> router didn't decide clearly enough
+- Escalation: pattern doesn't fit -> user reads `write-a-loop` and designs custom
+
+### Step 4: Constraints
+
+- Cost: zero (no LLM calls in router, pure heuristics)
+- Time: <5 minutes to route, <30 minutes to design new loop
+- Irreversible: none (methodology doesn't mutate state)
+- Degradation: if router unsure, default to `execute_verify` (simpler is better)
+
+### Step 5: Write & test
+
+- Wrote 5 patterns, 5 components, 8 examples
+- Tested router against 50 labeled tasks: 98% accuracy (see `benchmarks/`)
+- Tested against failure modes:
+  - #1 over-engineering: router returns `direct_answer` for trivial tasks ✅
+  - #2 under-verifying: `verify-before-claim` is a hard gate ✅
+  - #3 user picks: router auto-decides ✅
+  - #4 too abstract: examples show concrete use ✅
+  - #5 no code: Python+TS implementations ✅
+
+**Honest limitation**: The benchmark measures router decision accuracy, not end-to-end loop success. End-to-end success depends on the LLM and tools the user brings. We can't benchmark that without API credits.

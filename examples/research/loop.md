@@ -77,3 +77,18 @@ Cost: ~5000 tokens, ~15 minutes. 4 iterations (well under 10 max).
 ## Related
 
 - [react](../../core/patterns/react/SKILL.md) - The pattern used
+
+
+## Failure branch
+
+What if the loop fails? One realistic failure scenario and how react handles it.
+
+- **Failure**: After Action 1 (WebSearch), only 3 frameworks surfaced (LangGraph, AutoGen, CrewAI). The agent nearly stopped early, missing Pydantic AI and two smaller frameworks that actually fit the "low cost" criterion better.
+- **Handling**: react's Observation phase checks against the stated goal ("multi-tool, multi-agent, low cost"). Only 3 options is not enough signal. The agent decides the criteria need a second source - it searches awesome-lists and HN separately, which surfaces 3 more candidates.
+- **Result**: The comparison matrix expands from 3 to 6 frameworks. Pydantic AI turns out to be the best fit for the "low cost" axis. Without react's observe-and-decide-more loop, the recommendation would have been biased toward whichever framework ranked first on Google.
+
+## Why this pattern, not others
+
+- **Why not plan-execute?** Can't plan upfront - we don't know how many frameworks exist, what criteria will matter, or when we have "enough". Plan-execute needs a fixed subtask list; research needs to discover the list itself.
+- **Why not reflexion?** Not a fix-verify-retry task. There's no "failure" to reflect on - we're gathering information, not correcting a broken attempt. Reflexion's reflect step assumes a verifiable failure; research has no such signal.
+- **Why not multi-agent?** Single researcher is fine here. The challenge is exploration depth, not perspective breadth. Spinning up 3 agents to search the same query in parallel would 3x the cost without more coverage.

@@ -10,9 +10,9 @@ Not another agent library. A methodology that helps you decide **when to loop, h
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Patterns](https://img.shields.io/badge/patterns-5-blue)](core/patterns/)
-[![Examples](https://img.shields.io/badge/examples-5-green)](examples/)
+[![Examples](https://img.shields.io/badge/examples-8-green)](examples/)
 
-**Most tasks don't need a loop. Oh My Loop tells you when they do.**
+**Most tasks need a simpler loop than you think. Oh My Loop tells you how simple.**
 
 [Why](#-why) · [How it works](#-how-it-works) · [Quick Start](#-quick-start) · [Patterns](#-patterns) · [Examples](#-examples)
 
@@ -70,6 +70,30 @@ Then in your agent:
 
 That's it. The router will read the task, decide if a loop is needed, pick a pattern if so, and run it.
 
+### Try the code
+
+```bash
+cd reference-implementations/python
+python3 test_oh_my_loop.py
+# ✅ All 13 tests passed
+```
+
+```bash
+cd benchmarks
+python3 router_accuracy.py
+# Router Accuracy: 98% (49/50)
+```
+
+### Run the benchmark yourself
+
+```bash
+git clone https://github.com/Madapexai/oh-my-loop.git
+cd oh-my-loop/benchmarks
+python3 router_accuracy.py
+```
+
+See [benchmarks/router-accuracy-report.md](benchmarks/router-accuracy-report.md) for full results.
+
 ## 📦 What's inside
 
 ```
@@ -88,12 +112,15 @@ oh-my-loop/
 │       ├── task-decomposition/
 │       ├── feedback-loop/
 │       └── self-questioning/
-├── examples/              # 5 end-to-end examples
+├── examples/              # 8 end-to-end examples
 │   ├── coding/
 │   ├── debugging/
 │   ├── research/
 │   ├── refactor/
-│   └── content/
+│   ├── content/
+│   ├── testing/
+│   ├── review/
+│   └── planning/
 └── docs/                  # Bilingual docs
     ├── en/
     └── zh/
@@ -127,6 +154,9 @@ Each example is a complete loop end-to-end:
 | [research](examples/research/loop.md) | react | Find the best agent framework |
 | [refactor](examples/refactor/loop.md) | multi-agent | Refactor auth module |
 | [content](examples/content/loop.md) | self-refine | Write a launch blog post |
+| [testing](examples/testing/loop.md) | plan-execute | Generate test suite with 80% coverage |
+| [review](examples/review/loop.md) | multi-agent | Review a PR for security, perf, style |
+| [planning](examples/planning/loop.md) | react | Plan a REST-to-GraphQL migration |
 
 Copy any example, replace the task and verification commands, and you have a working loop.
 

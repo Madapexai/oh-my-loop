@@ -63,3 +63,19 @@ Done. Cost: ~15000 tokens, ~45 minutes. 2 rounds.
 
 - [multi-agent](../../core/patterns/multi-agent/SKILL.md) - The pattern used
 - [verify-before-claim](../../core/components/verify-before-claim/SKILL.md) - The verifier role
+
+
+## Failure branch
+
+What if the loop fails? One realistic failure scenario and how multi-agent handles it.
+
+- **Failure**: Round 1 broke 2 existing session tests. The Executor changed the auth middleware signature to accept OAuth context, but didn't update the session-auth call sites. The Verifier caught it; the Reflector diagnosed the root cause (signature drift, not a logic bug).
+- **Handling**: multi-agent's Reflector feeds the diagnosis back to the Planner. The Planner re-plans round 2 with a new subtask: "Update session-auth call sites for new middleware signature". The Executor runs only that subtask; the Verifier re-runs the full suite.
+- **Result**: Round 2 - all tests pass (OAuth + session). The multi-agent structure prevented a silent regression: in a single-agent flow, the executor might have "fixed" the failing tests by deleting them.
+
+## Why this pattern, not others
+
+- **Why not plan-execute?** High regression risk across multiple files. Plan-execute's single executor would miss the security angle and the cross-file signature drift. Multi-agent's dedicated Verifier + Reflector roles exist specifically to catch what a single executor misses.
+- **Why not reflexion?** We don't want to "try the refactor, see if it breaks, retry" - that's expensive on a 10-file refactor. Multi-agent prevents failure upfront via parallel review; reflexion reacts to failure after it happens.
+- **Why not react?** Steps ARE known (design, implement, test, review). The challenge is execution quality and catching regressions, not discovering unknown steps.
+- **Why not self-refine?** Refactoring is verifiable (tests pass/fail), not subjective. There's no "polish the refactor" - either the tests pass or they don't.
