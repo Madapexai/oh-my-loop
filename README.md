@@ -72,16 +72,25 @@ That's it. The router will read the task, decide if a loop is needed, pick a pat
 
 ### Try the code
 
+**Python:**
 ```bash
 cd reference-implementations/python
 python3 test_oh_my_loop.py
 # ✅ All 13 tests passed
 ```
 
+**TypeScript:**
+```bash
+cd reference-implementations/typescript
+npm install && npm test
+# ✅ 22 tests passed, 0 failed
+```
+
+**Benchmark:**
 ```bash
 cd benchmarks
-python3 router_accuracy.py
-# Router Accuracy: 98% (49/50)
+python3 router_accuracy_v2.py
+# 250 tasks: EN 98%, multilingual 14% (honest)
 ```
 
 ### Run the benchmark yourself
