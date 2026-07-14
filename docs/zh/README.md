@@ -3,10 +3,12 @@
 ## 从这里开始
 
 - [工作原理](how-it-works.md) - 5 分钟理解方法论
+- [可信模型](trust-model.md) - 安全不变量、威胁与能力边界
+- [成熟度与严格自评](maturity.md) - 86/100 的证据、扣分与升级门槛
 
 ## 参考
 
-- [Patterns](../../core/patterns/) - 5 个可复用循环模式
+- [Patterns](../../core/patterns/) - 代码与生活循环模式
 - [Components](../../core/components/) - 可组合部件
 - [Examples](../../examples/) - 端到端循环示例
 

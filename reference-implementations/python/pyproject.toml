@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oh-my-loop"
+version = "0.2.0"
+description = "Trustworthy, human-centered loop contracts and runtime"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Madapexai"}]
+keywords = ["agent", "loop", "decision", "life", "safety"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["oh_my_loop*"]

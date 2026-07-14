@@ -1,11 +1,12 @@
 {
   "name": "oh-my-loop",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Reference TypeScript implementation of Oh My Loop - methodology for designing good agentic loops",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "pretest": "npm run build",
     "test": "node dist/tests/test_oh_my_loop.js"
   },
   "license": "MIT",

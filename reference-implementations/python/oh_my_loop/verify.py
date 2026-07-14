@@ -29,8 +29,22 @@ def verify_before_claim(
     Returns:
         VerificationResult with can_claim + evidence + per-check results
     """
-    # 1. RUN (fresh, not cached)
-    output = verify_fn()
+    if not checks:
+        return VerificationResult(
+            can_claim=False,
+            evidence=f"Claim: {claim}\n\nChecks:\n  ❌ no checks configured",
+            checks={"checks_configured": False},
+        )
+
+    # 1. RUN (fresh, not cached). Verification errors fail closed.
+    try:
+        output = verify_fn()
+    except Exception as e:
+        return VerificationResult(
+            can_claim=False,
+            evidence=f"Claim: {claim}\n\nChecks:\n  ❌ verification_run\n\nError: {e}",
+            checks={"verification_run": False, "verification_run_error": str(e)},
+        )
 
     # 2. READ + VERIFY
     check_results = {}
@@ -42,7 +56,8 @@ def verify_before_claim(
             check_results[f"{name}_error"] = str(e)
 
     # 3. CLAIM only if all pass
-    all_pass = all(v is True for k, v in check_results.items() if not k.endswith("_error"))
+    boolean_checks = [v for k, v in check_results.items() if not k.endswith("_error")]
+    all_pass = bool(boolean_checks) and all(v is True for v in boolean_checks)
 
     evidence = _format_evidence(claim, output, check_results)
     return VerificationResult(can_claim=all_pass, evidence=evidence, checks=check_results)

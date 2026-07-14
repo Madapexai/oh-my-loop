@@ -1,8 +1,7 @@
-/** Optional feedback store - persists loop outcomes across sessions.
- * This is OPTIONAL. Skills are stateless by default; this module provides
- * a simple JSON store for users who want feedback accumulation. */
+/** Consent-gated local outcome store. Do not use for sensitive life memory. */
 
 import * as fs from "fs";
+import * as pathModule from "path";
 
 export interface FeedbackEntry {
   timestamp: string;
@@ -14,39 +13,39 @@ export interface FeedbackEntry {
 }
 
 export class FeedbackStore {
-  constructor(private readonly path: string = "feedback.json") {}
+  constructor(
+    private readonly path: string = "feedback.json",
+    private readonly consent: boolean = false,
+    private readonly maxEntries: number = 1000,
+  ) {}
 
   record(entry: Omit<FeedbackEntry, "timestamp">): void {
+    if (!this.consent) throw new Error("feedback persistence requires explicit consent");
     const history = this.read();
-    const fullEntry: FeedbackEntry = { ...entry, timestamp: new Date().toISOString() };
-    history.push(fullEntry);
-    this.write(history);
+    history.push({ ...entry, timestamp: new Date().toISOString() });
+    this.write(history.slice(-this.maxEntries));
   }
 
-  getRecent(n: number = 20): FeedbackEntry[] {
-    return this.read().slice(-n);
-  }
+  getRecent(n: number = 20): FeedbackEntry[] { return this.read().slice(-Math.max(0, n)); }
 
   getFailureRate(pattern?: string): number {
-    let history = this.read();
-    if (pattern) {
-      history = history.filter((h) => h.pattern === pattern);
-    }
+    const history = pattern ? this.read().filter((h) => h.pattern === pattern) : this.read();
     if (history.length === 0) return 0;
-    const failures = history.filter((h) => !h.success).length;
-    return failures / history.length;
+    return history.filter((h) => !h.success).length / history.length;
   }
 
   private read(): FeedbackEntry[] {
     if (!fs.existsSync(this.path)) return [];
-    try {
-      return JSON.parse(fs.readFileSync(this.path, "utf-8"));
-    } catch {
-      return [];
-    }
+    const value: unknown = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    if (!Array.isArray(value)) throw new Error("feedback store is corrupt: expected an array");
+    return value as FeedbackEntry[];
   }
 
   private write(data: FeedbackEntry[]): void {
-    fs.writeFileSync(this.path, JSON.stringify(data, null, 2));
+    const directory = pathModule.dirname(pathModule.resolve(this.path));
+    fs.mkdirSync(directory, { recursive: true });
+    const temp = `${this.path}.${process.pid}.tmp`;
+    fs.writeFileSync(temp, JSON.stringify(data, null, 2), { encoding: "utf-8", mode: 0o600 });
+    fs.renameSync(temp, this.path);
   }
 }

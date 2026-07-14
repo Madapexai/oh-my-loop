@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>oh-my-loop runtime promo demo</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">oh-my-loop runtime evidence pack</p>
+        <h1>让 Agent 先定义证据，再开始循环</h1>
+      </div>
+      <nav aria-label="Screens">
+        <a href="#game">游戏运行</a>
+        <a href="#compare">Agent 对比</a>
+        <a href="#life">生活决策</a>
+        <a href="#invest">投资框架</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="game" class="screen screen-game">
+        <div class="screen-head">
+          <div>
+            <p class="kicker">Complex coding task</p>
+            <h2>旋转陀螺怪兽游戏：运行时画面</h2>
+          </div>
+          <div class="runtime-badge">
+            <span class="dot"></span>
+            Live canvas simulation
+          </div>
+        </div>
+
+        <div class="game-layout">
+          <canvas id="gameCanvas" width="980" height="620" aria-label="旋转陀螺游戏运行画面"></canvas>
+          <aside class="status-panel">
+            <h3>验证状态</h3>
+            <div class="meter-row">
+              <span>玩家血量</span>
+              <strong id="hpText">82%</strong>
+            </div>
+            <div class="meter"><span id="hpBar"></span></div>
+            <div class="meter-row">
+              <span>陀螺稳定度</span>
+              <strong id="balanceText">76%</strong>
+            </div>
+            <div class="meter"><span id="balanceBar"></span></div>
+            <div class="meter-row">
+              <span>怪兽剩余</span>
+              <strong id="monsterText">7</strong>
+            </div>
+            <div class="meter"><span id="monsterBar"></span></div>
+            <ol class="checks">
+              <li class="pass">胜负条件已渲染</li>
+              <li class="pass">怪兽 AI 正在巡逻</li>
+              <li class="pass">玩家攻击范围可视化</li>
+              <li class="pass">失衡风险持续更新</li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <section id="compare" class="screen screen-compare">
+        <div class="screen-head">
+          <div>
+            <p class="kicker">Same task, different governance</p>
+            <h2>有无 oh-my-loop：同一道任务的行为差异</h2>
+          </div>
+          <div class="runtime-badge">
+            <span class="dot"></span>
+            Screenshot-ready comparison
+          </div>
+        </div>
+
+        <div class="comparison-grid">
+          <article class="agent-column weak">
+            <h3>普通 CLI Agent</h3>
+            <p class="model-label">OpenCode / Codex without skill</p>
+            <ul>
+              <li>直接开始生成代码</li>
+              <li>完成标准常在结尾才补</li>
+              <li>容易把“看起来能跑”当完成</li>
+              <li>生活和投资问题可能直接给结论</li>
+            </ul>
+            <div class="terminal">
+              <span>$ agent run "做旋转陀螺游戏"</span>
+              <span>Creating files...</span>
+              <span>Looks complete.</span>
+              <span class="warn">No browser evidence attached.</span>
+            </div>
+          </article>
+
+          <article class="agent-column strong">
+            <h3>Agent + oh-my-loop</h3>
+            <p class="model-label">OpenCode / Codex with skill</p>
+            <ul>
+              <li>先判定任务风险和决策权</li>
+              <li>先写成功证据和停止条件</li>
+              <li>每次行动后要求新观察</li>
+              <li>高影响决策只给框架，不替人决定</li>
+            </ul>
+            <div class="terminal">
+              <span>$ use oh-my-loop</span>
+              <span>Contract: playable game + screenshot + no console errors</span>
+              <span>Action: run local build and observe canvas</span>
+              <span class="ok">Verifier: evidence-backed completion</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="scoreboard" aria-label="对比评分">
+          <div><strong>任务理解</strong><span>5.0</span></div>
+          <div><strong>验证意识</strong><span>4.8</span></div>
+          <div><strong>停止条件</strong><span>4.7</span></div>
+          <div><strong>风险边界</strong><span>5.0</span></div>
+          <div><strong>可复现性</strong><span>4.9</span></div>
+        </div>
+      </section>
+
+      <section id="life" class="screen screen-decision">
+        <div class="screen-head">
+          <div>
+            <p class="kicker">Human-owned decision</p>
+            <h2>孩子教育与学区房：Agent 只做决策框架</h2>
+          </div>
+          <div class="runtime-badge">
+            <span class="dot"></span>
+            Advisory boundary active
+          </div>
+        </div>
+
+        <div class="decision-layout">
+          <article>
+            <h3>不能替用户决定</h3>
+            <p>这是高影响家庭决策，涉及现金流、孩子压力、居住稳定、家庭关系和房价波动。oh-my-loop 将决策权锁定给用户。</p>
+          </article>
+          <article>
+            <h3>可收集证据</h3>
+            <p>学校真实体验、通勤时长、月供压力测试、孩子适应度、片区政策变化、三年内迁移成本。</p>
+          </article>
+          <article>
+            <h3>可逆下一步</h3>
+            <p>先做一周通勤模拟和家庭预算压力测试，再决定是否进入看房阶段。</p>
+          </article>
+        </div>
+
+        <table class="matrix">
+          <thead>
+            <tr><th>维度</th><th>需要观察</th><th>风险信号</th><th>下一步</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>教育资源</td><td>课堂风格、同伴环境</td><td>只看升学率</td><td>实地访谈</td></tr>
+            <tr><td>现金流</td><td>月供和备用金</td><td>压缩安全垫</td><td>压力测试</td></tr>
+            <tr><td>孩子状态</td><td>睡眠、通勤、情绪</td><td>长期疲惫</td><td>短期试跑</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="invest" class="screen screen-decision">
+        <div class="screen-head">
+          <div>
+            <p class="kicker">Financial advice boundary</p>
+            <h2>投资理财：从“买什么”变成风险框架</h2>
+          </div>
+          <div class="runtime-badge">
+            <span class="dot"></span>
+            No buy/sell instruction
+          </div>
+        </div>
+
+        <div class="risk-board">
+          <div class="risk-cell">
+            <span>收益目标</span>
+            <strong>先定义区间</strong>
+            <p>目标收益必须和时间周期、流动性、最大回撤一起看。</p>
+          </div>
+          <div class="risk-cell">
+            <span>最大回撤</span>
+            <strong>先问能不能睡着</strong>
+            <p>无法承受的波动，不应该被高收益叙事包装成机会。</p>
+          </div>
+          <div class="risk-cell">
+            <span>行动边界</span>
+            <strong>不输出买卖指令</strong>
+            <p>Agent 提供比较框架，用户或持牌专家做最终决策。</p>
+          </div>
+        </div>
+
+        <div class="portfolio-bars">
+          <div style="--w: 80%"><span>现金管理</span><b>流动性高</b></div>
+          <div style="--w: 66%"><span>债券/固收</span><b>波动较低</b></div>
+          <div style="--w: 48%"><span>基金/权益</span><b>回撤更高</b></div>
+          <div style="--w: 36%"><span>房产</span><b>流动性低</b></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./game.js"></script>
+  </body>
+</html>

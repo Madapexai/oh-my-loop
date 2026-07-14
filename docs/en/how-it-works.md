@@ -1,88 +1,65 @@
-# How Oh My Loop Works
+# How Oh My Loop works
 
-## The problem
+Oh My Loop separates a goal from the authority to act and a plausible result from verified completion.
 
-AI agents fail in predictable ways. The most common failure is **over-looping**: wrapping every task in a multi-step reasoning loop because "loops are powerful." The second most common is **under-verifying**: claiming a task is done without running any check.
+## Contract first
 
-Oh My Loop addresses both by giving agents a router that decides **whether to loop at all**, and patterns that **force verification before completion claims**.
+A run begins with goal, decision owner, success evidence, harm guardrails, allowed actions, confirmation boundaries, budgets, memory policy, and stop conditions. Life tasks default to user ownership. Memory capability is on, while personal candidates require consent and review before becoming active.
 
-## The router
+## Safety-first routing
 
-[using-oh-my-loop](../../using-oh-my-loop/SKILL.md) is the entry point. It runs a decision tree:
+The order is deliberate:
 
-1. Is the task trivial? -> answer directly, stop
-2. Is it reversible and low-stakes? -> do it once, stop
-3. Does it have a verifiable success criteria? -> if not, define one first
-4. Is it complex enough to fail on first try? -> if not, execute + verify, stop
-5. Choose a pattern by failure mode
+1. The model interprets possible crisis, consequential decisions, privacy, other people, and irreversible/external actions from context.
+2. The model chooses autonomy: stop and escalate, advice only, confirm before action, or bounded execution.
+3. The model decides whether no loop, one action, verification, a primitive composition, or a custom adaptive strategy is useful.
+4. Deterministic policy validates the structure and reduces unsafe autonomy without reclassifying the task.
 
-This prevents over-looping. Most tasks reach step 2 and stop.
+Short wording never proves low risk.
 
-## The patterns
+## Recoverable controlled cycle
 
-Five patterns, chosen by failure mode (not by preference):
+The model-authored plan is an initial hypothesis, not a fixed workflow. On every iteration the agent observes current state, chooses one bounded next action, and adapts or re-plans from new evidence. Pre-action gates check authority, scope, reversibility, consent, and budget. Execution returns a structured outcome and observations. Post-action gates require fresh evidence and check harm before `completed` is allowed.
 
-- **react** - you don't know the steps upfront
-- **reflexion** - first attempt likely wrong, can verify
-- **plan-execute** - steps known, might execute wrong
-- **self-refine** - output needs polishing, not fixing
-- **multi-agent** - needs multiple perspectives
+```mermaid
+stateDiagram-v2
+    [*] --> Routing
+    Routing --> Escalated: critical / no authority
+    Routing --> Proposed: contract accepted
+    Proposed --> AwaitingInput: material context missing
+    AwaitingInput --> Proposed: user supplies input
+    Proposed --> AwaitingConfirmation: external / irreversible / affects others
+    Proposed --> AwaitingObservation: reversible and authorized
+    AwaitingConfirmation --> AwaitingObservation: exact confirmation
+    AwaitingObservation --> Proposed: evidence insufficient; adapt
+    AwaitingObservation --> Completed: fresh evidence + verifier pass
+    Proposed --> BudgetExhausted: iteration / time / estimated tokens
+    Proposed --> Cancelled: user cancellation
+```
 
-Each pattern has:
-- **Termination conditions** - no infinite loops
-- **Checkpoints** - entry, exit, failure, escalation
-- **Constraints** - cost, time, degradation path
-- **A worked example**
+Every event carries the SHA-256 hash of the previous event. Proposals may cite only existing ledger events. Completion may cite only observation events and must pass a separate verifier model call. Model confidence alone is never completion evidence.
 
-## The components
+The CLI is a control plane, not an arbitrary tool executor. `run` proposes one action; a user or host agent performs it and returns the observed result with `observe`. `resume` recovers interrupted work.
 
-Four composable pieces for custom loops:
+```bash
+oh-my-loop run "verify whether this plan should continue" --json
+oh-my-loop input <run-id> "the requested missing context"
+oh-my-loop confirm <run-id> "<full exact pending action>"
+oh-my-loop observe <run-id> "the result actually observed" --source tool
+oh-my-loop status <run-id> --json
+oh-my-loop resume <run-id>
+```
 
-- **verify-before-claim** - gate function preventing unverified claims
-- **task-decomposition** - breaking tasks into verifiable subtasks
-- **feedback-loop** - capturing outcomes to improve future runs
-- **self-questioning** - multi-perspective check before committing
+Runs stop on evidence-backed completion, cancellation, time or cost budget, repeated non-progress, new risk, failed gates, or iteration limit. Partial and blocked results are normal outcomes, not errors to hide.
 
-## The three priorities
+## Patterns and governance
 
-Every task trades off **effect**, **cost**, and **efficiency**. The router decides based on context:
+`react`, `plan-execute`, `reflexion`, `self-refine`, and `multi-agent` describe agent behaviors. `decision`, `habit`, and `life-review` describe human-centered feedback structures. They are optional primitives rather than a closed pattern list: the model may compose them or create a task-specific bounded strategy. Composition never expands authority. Memory is a separate governed subsystem with consent, quarantine, provenance, expiry, correction, and forgetting.
 
-| Task type | Priority | Default behavior |
-|---|---|---|
-| Production bugfix, irreversible action | Effect first | reflexion + verifier |
-| One-off draft, prototype | Efficiency first | single pass + self-refine |
-| Expensive API, batch processing | Cost first | cheap model, minimal rounds |
-| Exploration, research | Effect first | react, multiple rounds |
+Read the [trust model](trust-model.md) for threats and limitations, then [design a contract](../../write-a-loop/SKILL.md).
 
-The router does not ask the user to choose. It decides based on the task.
+## Agent Team
 
-## Human-in-the-loop
+`oh-my-loop team` is not a fixed Planner/Executor/Reviewer template. The model creates 2–6 roles justified by task semantics; up to four run concurrently. Roles are advisory, the coordinator preserves disagreement, and a verifier checks the synthesis. Resume runs only missing roles after interruption.
 
-Only three cases trigger a pause for human confirmation:
-
-1. **Irreversible action** - delete, deploy, payment, mass email
-2. **User data mutation** - modify database, write to user storage
-3. **Cost exceeds threshold** - over budget
-
-Everything else: the agent decides and acts.
-
-## Designing your own loop
-
-If the five patterns don't fit, use [write-a-loop](../../write-a-loop/SKILL.md). It enforces a 5-step hard flow:
-
-1. **Define goal** - including at least 3 failure modes
-2. **Choose pattern** - by dominant failure mode
-3. **Define checkpoints** - entry, exit, failure, escalation
-4. **Define constraints** - budget, irreversible, degradation path
-5. **Write & test** - test against your own failure modes
-
-The hard rule: **if you can't list failure modes, you don't understand the task yet.**
-
-## What this is not
-
-- Not an agent framework (no runtime, no orchestration engine)
-- Not a prompt library (no canned prompts)
-- Not a company SOP (no internal tools or proprietary names)
-- Not a "loop for everything" wrapper
-
-It's a methodology: patterns + components + examples that you compose into loops for your tasks.
+Role agreement is correlated when roles share the same model, provider, or evidence. The runtime records this limitation instead of treating role count as independent corroboration.

@@ -1,5 +1,14 @@
 """Oh My Loop - Reference implementation of the smart routing methodology."""
-from .router import route, RouteResult
+from .router import (
+    route,
+    contract_for,
+    analyze_risk,
+    ModelConfigurationError,
+    ModelDecisionError,
+    RouteDecision,
+    RouteResult,
+    AgenticLoopPlan,
+)
 from .patterns import (
     Pattern,
     ReactPattern,
@@ -7,22 +16,76 @@ from .patterns import (
     PlanExecutePattern,
     SelfRefinePattern,
     MultiAgentPattern,
+    DecisionPattern,
+    HabitPattern,
+    LifeReviewPattern,
+    LoopResult,
 )
 from .config import LoopConfig
 from .verify import verify_before_claim, VerificationResult
 from .feedback import FeedbackStore
+from .kernel import LoopKernel
+from .gates import GatePipeline, GateResult, GateStage, default_gate_pipeline
+from .memory import JSONMemoryStore, MemoryEntry, MemorySensitivity, MemoryStatus
+from .models import (
+    AutonomyMode,
+    DecisionOwner,
+    Evidence,
+    FeedbackType,
+    KernelResult,
+    LoopContract,
+    MemoryPolicy,
+    LoopStatus,
+    ProposedAction,
+    RiskLevel,
+    RiskProfile,
+    StepOutcome,
+    StepProposal,
+)
 
 __all__ = [
     "route",
+    "contract_for",
+    "analyze_risk",
+    "ModelConfigurationError",
+    "ModelDecisionError",
+    "RouteDecision",
     "RouteResult",
+    "AgenticLoopPlan",
     "Pattern",
     "ReactPattern",
     "ReflexionPattern",
     "PlanExecutePattern",
     "SelfRefinePattern",
     "MultiAgentPattern",
+    "DecisionPattern",
+    "HabitPattern",
+    "LifeReviewPattern",
+    "LoopResult",
     "LoopConfig",
     "verify_before_claim",
     "VerificationResult",
     "FeedbackStore",
+    "LoopKernel",
+    "GatePipeline",
+    "GateResult",
+    "GateStage",
+    "default_gate_pipeline",
+    "JSONMemoryStore",
+    "MemoryEntry",
+    "MemorySensitivity",
+    "MemoryStatus",
+    "AutonomyMode",
+    "DecisionOwner",
+    "Evidence",
+    "FeedbackType",
+    "KernelResult",
+    "LoopContract",
+    "MemoryPolicy",
+    "LoopStatus",
+    "ProposedAction",
+    "RiskLevel",
+    "RiskProfile",
+    "StepOutcome",
+    "StepProposal",
 ]

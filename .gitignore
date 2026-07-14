@@ -13,6 +13,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.egg-info/
 .Python
 venv/
 env/
@@ -27,3 +28,12 @@ npm-debug.log*
 *.bak
 *.log
 /tmp/
+
+# Local validation output (never commit generated test or benchmark results)
+coverage/
+.coverage
+test-results/
+benchmark-results/
+benchmarks/*-report.*
+assets/agent-benchmark-runs/
+.oh-my-loop/

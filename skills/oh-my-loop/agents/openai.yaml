@@ -1,0 +1,4 @@
+interface:
+  display_name: "Oh My Loop"
+  short_description: "Run safe, evidence-gated coding and life loops"
+  default_prompt: "Use $oh-my-loop to route this task and run the smallest safe, evidence-gated loop."

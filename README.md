@@ -1,236 +1,209 @@
-<div align="center">
-
-<img src="assets/logo.png" alt="Oh My Loop" width="160">
-
 # Oh My Loop
 
-### A framework for designing good agentic loops.
+> Safety-first loops for code, decisions, habits, and life reviews.
 
-Not another agent library. A methodology that helps you decide **when to loop, how deep, and when to stop.**
+Oh My Loop is an **alpha** methodology and persistent runtime for building bounded, observable, human-governed loops. It helps an agent decide when not to loop, when to verify, when to ask for confirmation, and when to stop or escalate.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Patterns](https://img.shields.io/badge/patterns-5-blue)](core/patterns/)
-[![Examples](https://img.shields.io/badge/examples-8-green)](examples/)
+中文：[可信模型](docs/zh/trust-model.md) · English: [Trust model](docs/en/trust-model.md)
 
-**Most tasks need a simpler loop than you think. Oh My Loop tells you how simple.**
+## Why this exists
 
-[Why](#-why) · [How it works](#-how-it-works) · [Quick Start](#-quick-start) · [Patterns](#-patterns) · [Examples](#-examples)
+A useful loop is more than “try again until it looks good.” Coding can often use tests as an oracle. Life cannot: values change, evidence is incomplete, other people are affected, and optimizing a proxy can reduce wellbeing. Oh My Loop therefore treats these as first-class:
 
-</div>
-
----
-
-## 🤔 Why
-
-LLM agents fail in predictable ways:
-
-- **Over-engineering** - wrapping single-step tasks in loops because "loops are powerful"
-- **Under-verifying** - claiming "done" without running any check
-- **Infinite reflection** - reflecting forever without terminating
-- **No degradation** - assuming infinite budget, failing when it runs out
-- **Letting users pick** - asking the user to choose patterns instead of deciding based on context
-
-Oh My Loop fixes these by giving you:
-
-1. **A router** that decides if you even need a loop
-2. **Patterns** for when you do, chosen by failure mode
-3. **Components** that compose into custom loops
-4. **Examples** that show real loops end-to-end
-
-> Good loops are not "teach the agent what to do" — they are "predict where the agent will fail, and block it preemptively."
-
-## 🎬 Demo Video
-
-[![Oh My Loop Demo](assets/og-image.png)](assets/demo-video.mp4)
-
-**60-second demo**: trivial tasks get direct answers, complex tasks pick a pattern automatically.
-
-<details>
-<summary>Watch the demo (60s, 800KB)</summary>
-
-```bash
-# Download and play
-curl -L https://raw.githubusercontent.com/Madapexai/oh-my-loop/main/assets/demo-video.mp4 -o demo.mp4
-open demo.mp4  # macOS
+```text
+Loop = Contract + State + Actors + Actions + Observations
+     + Gates + Memory + Budget + Governance
 ```
 
-Or watch on [YouTube](#) (TBD).
+The runtime is a recoverable control plane:
 
-</details>
-
-## 🎬 How it works
-
-![Smart Routing](assets/smart-routing.gif)
-
-**Read [using-oh-my-loop](using-oh-my-loop/SKILL.md) first.** It runs a decision tree in your head:
-
-- Trivial task? -> answer directly, no loop
-- Reversible + low stakes? -> do it once, done
-- Verifiable + complex? -> pick a pattern by failure mode
-
-The router auto-balances **effect / cost / efficiency** based on context — it does not ask the user. Human-in-the-loop only triggers for **irreversible actions, user data mutation, or cost overruns**.
-
-## 🚀 Quick Start
-
-```bash
-git clone https://github.com/Madapexai/oh-my-loop.git
+```mermaid
+flowchart LR
+    T["Task + context"] --> R["Model semantic route"]
+    R --> P["Deterministic policy gate"]
+    P -->|"critical / no authority"| X["Escalate or block"]
+    P --> C["Complete loop contract"]
+    C --> N["One model-proposed action"]
+    N --> A["Semantic contract/action gate"]
+    A -->|"outside authority"| X
+    A --> G{"Confirmation required?"}
+    G -->|"yes"| H["Exact user confirmation"]
+    G -->|"no"| O["Fresh observation"]
+    H --> O
+    O --> Q["Independent progress assessment"]
+    Q -->|"stagnant twice"| S
+    Q --> L["Hash-chained evidence ledger"]
+    L --> V["Independent completion verifier"]
+    V -->|"supported"| D["Completed"]
+    V -->|"not supported"| N
+    C -->|"budget / cancellation"| S["Honest terminal state"]
 ```
 
-Point your agent at the skills:
+## Safety invariants
 
-```bash
-# Claude Code / Cursor / Codex / any agent that loads SKILL.md files
-export OH_MY_LOOP_SKILLS=/path/to/oh-my-loop
-```
+- A model evaluates semantic intent and risk before any “trivial task” shortcut; there is no keyword fallback.
+- Crisis signals stop automation; high-impact life tasks are advisory only.
+- The user remains decision owner for consequential life choices.
+- Irreversible or external actions require fresh, exact-action confirmation.
+- Empty or broken verification fails closed; completion requires evidence.
+- Iteration, time, cost, stagnation, cancellation, and partial results are explicit.
+- Memory capability is enabled by default. New personal memory remains quarantined; persistence requires consent and activation requires review.
 
-Then in your agent:
+This project is not an emergency, medical, mental-health, legal, or financial service. See the [trust boundaries](docs/en/trust-model.md) before integrating it.
 
-> "Use using-oh-my-loop to decide if I need a loop for this task."
+## Agentic loop primitives
 
-That's it. The router will read the task, decide if a loop is needed, pick a pattern if so, and run it.
-
-### Try the code
-
-**Python:**
-```bash
-cd reference-implementations/python
-python3 test_oh_my_loop.py
-# ✅ All 13 tests passed
-```
-
-**TypeScript:**
-```bash
-cd reference-implementations/typescript
-npm install && npm test
-# ✅ 22 tests passed, 0 failed
-```
-
-**Benchmark:**
-```bash
-cd benchmarks
-python3 router_accuracy_v2.py
-# 250 tasks: EN 98%, multilingual 14% (honest)
-```
-
-### Run the benchmark yourself
-
-```bash
-git clone https://github.com/Madapexai/oh-my-loop.git
-cd oh-my-loop/benchmarks
-python3 router_accuracy.py
-```
-
-See [benchmarks/router-accuracy-report.md](benchmarks/router-accuracy-report.md) for full results.
-
-## 📦 What's inside
-
-```
-oh-my-loop/
-├── using-oh-my-loop/     # The router — read this first
-├── write-a-loop/          # Meta-skill: design new loops
-├── core/
-│   ├── patterns/          # 5 reusable loop patterns
-│   │   ├── react/         #   Reason + Act (unknown steps)
-│   │   ├── reflexion/      #   Try, reflect, retry
-│   │   ├── plan-execute/   #   Plan first, then execute
-│   │   ├── self-refine/    #   Generate, critique, refine
-│   │   └── multi-agent/    #   Multiple roles
-│   └── components/         # Composable pieces
-│       ├── verify-before-claim/
-│       ├── task-decomposition/
-│       ├── feedback-loop/
-│       └── self-questioning/
-├── examples/              # 8 end-to-end examples
-│   ├── coding/
-│   ├── debugging/
-│   ├── research/
-│   ├── refactor/
-│   ├── content/
-│   ├── testing/
-│   ├── review/
-│   └── planning/
-└── docs/                  # Bilingual docs
-    ├── en/
-    └── zh/
-```
-
-## 🔀 Patterns
-
-| Pattern | When to use | Termination |
-|---|---|---|
-| [react](core/patterns/react/SKILL.md) | Unknown steps, need to explore | max 10 iterations |
-| [reflexion](core/patterns/reflexion/SKILL.md) | First attempt likely wrong, can verify | max 3 attempts |
-| [plan-execute](core/patterns/plan-execute/SKILL.md) | Steps known, might do them wrong | max 2 re-plans |
-| [self-refine](core/patterns/self-refine/SKILL.md) | Output needs polishing | max 3 refinements |
-| [multi-agent](core/patterns/multi-agent/SKILL.md) | Needs multiple perspectives | max 2 rounds |
-
-**Every pattern has:**
-- When to use / when NOT to use
-- The loop structure
-- Checkpoints (entry / exit / failure / escalation)
-- Constraints (cost / time / degradation)
-- A worked example
-
-## 📚 Examples
-
-Each example is a complete loop end-to-end:
-
-| Example | Pattern used | Task |
-|---|---|---|
-| [coding](examples/coding/loop.md) | plan-execute | Add an API endpoint with tests |
-| [debugging](examples/debugging/loop.md) | reflexion | Fix an intermittent bug |
-| [research](examples/research/loop.md) | react | Find the best agent framework |
-| [refactor](examples/refactor/loop.md) | multi-agent | Refactor auth module |
-| [content](examples/content/loop.md) | self-refine | Write a launch blog post |
-| [testing](examples/testing/loop.md) | plan-execute | Generate test suite with 80% coverage |
-| [review](examples/review/loop.md) | multi-agent | Review a PR for security, perf, style |
-| [planning](examples/planning/loop.md) | react | Plan a REST-to-GraphQL migration |
-
-Copy any example, replace the task and verification commands, and you have a working loop.
-
-## 🧩 Components
-
-Reusable pieces that compose into custom loops:
-
-| Component | What it does |
+| Behavior | Use when |
 |---|---|
-| [verify-before-claim](core/components/verify-before-claim/SKILL.md) | Gate function: no claim without evidence |
-| [task-decomposition](core/components/task-decomposition/SKILL.md) | Break tasks into verifiable subtasks |
-| [feedback-loop](core/components/feedback-loop/SKILL.md) | Capture outcomes to improve future runs |
-| [self-questioning](core/components/self-questioning/SKILL.md) | Multi-perspective check before committing |
+| `react` | steps are unknown and actions reveal information |
+| `plan-execute` | steps can be planned but execution may fail |
+| `reflexion` | attempts have an independent verifier |
+| `self-refine` | an artifact needs bounded critique and revision |
+| `multi-agent` | genuinely independent perspectives reduce error |
+| `decision` | a person is choosing under uncertainty |
+| `habit` | a repeated behavior needs environment and review |
+| `life-review` | observations need a bounded retrospective and experiment |
 
-## ✍️ Designing your own loop
+These are reusable primitives, not a fixed routing enum. The model may use none, select one, compose several, or generate a task-specific bounded strategy. Every loop observes, chooses one next action, and adapts from evidence. Composition does not grant authority: a research loop inside a life decision can gather evidence but cannot make or execute the decision.
 
-If none of the patterns fit, use [write-a-loop](write-a-loop/SKILL.md). It walks you through a 5-step hard flow:
+## Install the CLI
 
-1. **Define goal** — what, why, success, failure modes (mandatory)
-2. **Choose pattern** — by failure mode
-3. **Define checkpoints** — entry / exit / failure / escalation for each step
-4. **Define constraints** — cost / time / irreversible / degradation
-5. **Write & test** — test against your own failure modes
+The supported user entry point is a zero-dependency Node.js CLI. Skill installation and discovery do not need model configuration.
 
-## 🤝 Contributing
+```bash
+npm install --global --prefix "$HOME/.local" .
 
-Contributions welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+oh-my-loop install --agent all
+oh-my-loop doctor
+```
 
-**We accept:**
-- New patterns (with failure-mode analysis and examples)
-- New examples (end-to-end, with verification commands)
-- Improvements to existing patterns
+Inside Codex, Claude Code, Gemini, or Cursor, the current agent model performs routing, so no second model configuration is needed.
 
-**We do not accept:**
-- Company-specific SOPs disguised as generic patterns
-- "Loop for everything" wrappers
-- Patterns without failure-mode analysis
+Persistent CLI routing and runs require an OpenAI-compatible model:
 
-## 📄 License
+```bash
+export OH_MY_LOOP_MODEL="your-model"
+export OH_MY_LOOP_API_KEY="your-key"
+# Optional: defaults to https://api.openai.com/v1
+export OH_MY_LOOP_BASE_URL="https://your-openai-compatible-endpoint/v1"
+# Optional request timeout; transient 429/5xx/network failures get one retry
+export OH_MY_LOOP_TIMEOUT_MS="30000"
 
-MIT — see [LICENSE](LICENSE).
+oh-my-loop route "delete prod" --json
+oh-my-loop contract "帮我建立每天运动习惯" --json
+oh-my-loop run "调查为什么本周睡眠变差，只提出一个可逆实验"
+```
 
----
+The model decides intent, domain, risk, autonomy, decision ownership, governance, and whether to use no loop, compose known primitives, or create a task-specific adaptive loop. Deterministic code validates its JSON, caps iteration/time/estimated-token budgets, and reduces unsafe authority. It never selects a strategy from task text. Missing configuration or invalid model output fails closed. Python and TypeScript remain optional contributor references; the Node CLI is the supported runtime.
 
-<div align="center">
+## Run a real loop
 
-**Loop smart. Loop less. Ship more.**
+`run` proposes exactly one bounded next action. Oh My Loop does not secretly execute arbitrary tools; the user or host agent performs that action and records the fresh result.
 
-</div>
+```bash
+oh-my-loop run "验证发布流程是否可靠" --json
+oh-my-loop input <run-id> "模型请求的缺失上下文"      # only for awaiting_input
+oh-my-loop confirm <run-id> "<exact pending_action.confirmation_text>"   # only when requested
+oh-my-loop observe <run-id> "真实测试输出与副作用" --source tool
+oh-my-loop status <run-id> --json
+oh-my-loop resume <run-id>
+oh-my-loop cancel <run-id> "目标已变化"
+```
+
+Runs are stored under `~/.oh-my-loop` with `0700` directories and `0600` files. Writes are atomic and per-run cross-process locks reject concurrent mutation instead of silently losing events. Ledger hashes expose later modification, but storage is not encrypted and is not appropriate for secrets.
+
+## Agent Team
+
+`team` creates 2–6 model-chosen advisory roles, runs up to four in parallel, preserves disagreements, synthesizes immutable proposals, and invokes a separate verifier call. An interrupted team can resume without repeating completed roles.
+
+```mermaid
+flowchart LR
+    A["Immutable task snapshot"] --> B["Model chooses useful roles"]
+    B --> C1["Role proposal A"]
+    B --> C2["Role proposal B"]
+    B --> C3["Optional role N"]
+    C1 --> D["Coordinator preserves disagreement"]
+    C2 --> D
+    C3 --> D
+    D --> E["Independent verifier call"]
+    E --> F["Advisory result + evidence ledger"]
+```
+
+```bash
+oh-my-loop team "从安全、可用性和反方视角评审这个决定" --json
+oh-my-loop resume <interrupted-team-id>
+```
+
+Separate prompts are not independent evidence when they share the same model/provider. The runtime reports that correlation instead of inflating confidence.
+
+## Governed memory
+
+Memory capability is available by default, but every new entry is quarantined. Personal/sensitive persistence and activation require consent; entries support provenance, expiry, correction, review, and deletion.
+
+```bash
+oh-my-loop memory add "偏好上午深度工作" --sensitivity personal --source user --expires-days 180 --consent
+oh-my-loop memory approve <memory-id> --consent
+oh-my-loop memory update <memory-id> "更正后的内容" --consent
+oh-my-loop memory forget <memory-id>
+```
+
+## Use it directly from coding agents
+
+The canonical Agent Skill lives at [`skills/oh-my-loop`](skills/oh-my-loop/SKILL.md) and follows the `SKILL.md + agents/ + references/ + scripts/` structure.
+
+```bash
+# Install the same skill for Codex, Claude Code, and Gemini CLI
+oh-my-loop install --agent all
+
+# Development mode: Codex/Gemini can follow this checkout; prefer a copy for Claude Code
+oh-my-loop install --agent codex --mode symlink --force
+oh-my-loop install --agent gemini --mode symlink --force
+oh-my-loop install --agent claude --mode copy --force
+
+# Or install only for one repository
+oh-my-loop install --agent all --scope project --project /path/to/project
+
+# Check discovery locations
+oh-my-loop doctor
+```
+
+Invoke it directly:
+
+```text
+Codex: Use $oh-my-loop to implement this change and verify before completion.
+Claude Code: /oh-my-loop review this task and run the smallest safe loop.
+Gemini CLI: Use the oh-my-loop skill to route this task before acting.
+```
+
+Cursor uses project rules rather than this shared discovery path:
+
+```bash
+oh-my-loop install --agent cursor --project /path/to/project
+```
+
+## Repository map
+
+```text
+using-oh-my-loop/                 safety-first router skill
+write-a-loop/                     loop contract design skill
+core/patterns/                    5 agent patterns + 3 life patterns
+core/components/                  verification, risk/consent, memory, decomposition
+examples/                         coding and life examples
+bin/oh-my-loop.mjs                supported zero-dependency CLI
+reference-implementations/        optional contributor references
+docs/en/ and docs/zh/             architecture and trust boundaries
+```
+
+## Evaluation policy
+
+Model-router quality is not product quality and does not prove real-world safety or improved life outcomes. Evaluation must use held-out semantic, multilingual, adversarial, and high-risk scenarios with model/version provenance. Generated evaluation results remain local and are not committed.
+
+The current internal engineering-readiness score is **86/100**, based on versioned protocol and policy gates (18/20), usable persistent CLI (18/20), automated verification and recovery tests (18/20), agent/Team integration (16/20), and documentation/operations (16/20). See the [scored evidence and deductions](docs/zh/maturity.md). This is a reproducible project-readiness assessment—not a safety certification or evidence that life outcomes improve. Encryption, provider diversity, native host-tool enforcement, longitudinal outcome studies, and external review remain required for higher confidence.
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md). A new pattern needs a distinct failure mode, contract, termination conditions, adversarial tests, and an end-to-end example. Safety and evidence gates may not be removed as a budget optimization.
+
+## License
+
+MIT. Use at your own risk; maturity is alpha.
