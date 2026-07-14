@@ -1,12 +1,12 @@
 # Oh My Loop - TypeScript Reference Implementation
 
-Executable TypeScript port of the Oh My Loop router, patterns, and components.
+Experimental TypeScript port of the model-driven safety router and bounded patterns. End users should use the zero-dependency Node CLI at the repository root.
 
 ## Install
 
 ```bash
 cd reference-implementations/typescript
-npm install
+npm ci
 ```
 
 ## Build
@@ -19,27 +19,30 @@ npm run build
 
 ```bash
 npm test
-# ✅ 22 tests passed, 0 failed
 ```
 
 ## Use
 
 ```typescript
-import { route, RouteDecision } from "oh-my-loop";
+import { route } from "oh-my-loop";
 
-const result = route("fix the bug where login fails");
-console.log(result.decision); // "pattern"
-console.log(result.pattern);  // "reflexion"
+const result = await route("your task", async (task, protocol) => {
+  // Call your model with protocol + task and return its schema_version 2 object.
+  return modelClient.classify({ protocol, task });
+});
+console.log(result.decision);
 ```
 
 ## What's included
 
-- `src/router.ts` - `route(task)` executable router
-- `src/patterns.ts` - 5 pattern classes (React, Reflexion, PlanExecute, SelfRefine, MultiAgent)
+- `src/router.ts` - async model callback, schema validation, and deterministic safety gates
+- `src/patterns.ts` - coding patterns plus Decision, Habit, and Life Review
 - `src/verify.ts` - `verifyBeforeClaim()` gate function
 - `src/config.ts` - `LoopConfig` with paper-cited defaults
 - `src/feedback.ts` - Optional `FeedbackStore` for persistence
 
-## Parity with Python
+## Compatibility status
 
-The TypeScript implementation mirrors the Python reference. Both pass the same test cases. Router accuracy: 98% on English, 14% on multilingual (keyword-based, documented limitation).
+Routing policy and termination semantics are tested for parity. The router never infers semantics from rules: missing model configuration, model failure, or invalid structured output fails closed. TypeScript does not yet provide the Python `LoopKernel`, action gates, or governed memory store; do not describe it as full parity.
+
+The configuration exposes memory as enabled with candidate capture by default, but this port does not persist or activate personal memory. The optional Python reference demonstrates a governed persistence layer for contributors.

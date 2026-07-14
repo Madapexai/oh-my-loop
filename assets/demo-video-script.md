@@ -39,7 +39,7 @@ Simple task -> direct answer. No loop.
 ## Scene 3 (20-30s) - 复杂任务演示
 
 **画面描述**
-同一终端窗口。用户输入 `> fix this bug in auth.py`。回车后左侧出现路由判断动画：任务文本被分解成若干特征向量，流向五个 pattern 卡片中的 "reflexion" 卡片，该卡片高亮放大。随后展示 reflexion 三步：generate -> critique -> regenerate。右上角角标 `pattern: reflexion · 3 calls`。
+同一终端窗口。用户输入 `> fix this bug in auth.py`。回车后显示当前 Agent 模型从完整上下文生成一个有界策略：先复现、观察失败证据，再选择修复与验证步骤。`reflexion` 作为可选原语出现，但不是固定分类结果。右上角显示 `adaptive loop · bounded`。
 
 **字幕**
 Complex task -> router picks reflexion.
@@ -55,10 +55,10 @@ Complex task -> router picks reflexion.
 ## Scene 4 (30-40s) - 智能路由动效
 
 **画面描述**
-全屏播放 `/tmp/oh-my-loop/assets/smart-routing.gif`：一个任务节点从左侧进入，经过中央的 router 节点（发光脉冲），按任务复杂度分流到五条支路（zero-shot / RAG / plan-execute / reflexion / ToT），每条支路用不同颜色和长度可视化 loop 深度。简单任务走最短的直线，复杂任务走最长的螺旋。
+全屏展示动态 Loop：任务进入模型路由器后，可以直接完成，也可以生成由多个原语组成的初始策略；每次 observation 都回流给 Agent，Agent 据此选择下一步、调整计划或停止。安全护栏独立包围整个循环。
 
 **字幕**
-Smart routing: one router, five patterns.
+Prompt-governed routing. Flexible strategy. Hard safety boundaries.
 
 **旁白**
 "One router. Five patterns. The right loop for each task - not the biggest one."

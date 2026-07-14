@@ -3,10 +3,11 @@
 ## Start here
 
 - [How it works](how-it-works.md) - The methodology, in 5 minutes
+- [Trust model](trust-model.md) - Safety invariants, threats, and boundaries
 
 ## Reference
 
-- [Patterns](../../core/patterns/) - 5 reusable loop patterns
+- [Patterns](../../core/patterns/) - Agent and life loop behaviors
 - [Components](../../core/components/) - Composable pieces
 - [Examples](../../examples/) - End-to-end loop examples
 

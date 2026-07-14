@@ -1,94 +1,64 @@
 ---
 name: using-oh-my-loop
-description: Routes any task to the right loop depth. ALWAYS read this first before deciding to loop. Most tasks don't need a loop at all.
+description: Route coding and life tasks through risk, consent, decision ownership, verification, and the smallest useful loop.
 ---
 
-# Using Oh My Loop
+# Use Oh My Loop
 
-You are about to start a task. Before you do, read this to decide **whether you need a loop at all, and if so, which one**.
+Use this order. Never optimize convenience before safety.
 
-## The core insight
+Use the current model to infer intent, domain, risk, autonomy, decision ownership, and behavior from meaning and context. Do not use keyword lists, regular expressions, string matching, or task length as semantic routing. If a model decision is unavailable or invalid, fail closed instead of guessing.
 
-Loops are expensive. A loop burns tokens, time, and attention. Most tasks don't need one. The smartest move is often: **answer directly, no loop, no verification, no reflection**.
+## 1. Safety and authority gate
 
-This skill exists to prevent you from over-engineering simple tasks.
+Ask internally:
 
-## Decision tree (run this in your head first)
+1. Is there a possible immediate danger to the user or another person? Stop automation, encourage immediate human or emergency support, and do not run a productivity loop.
+2. Is this medical, legal, financial, employment, relationship, or another consequential life decision? Give decision support only. The user remains the decision owner.
+3. Would an action publish, send, pay, delete, deploy, sign, disclose data, affect another person, or be hard to reverse? Show the exact proposed action and require fresh, action-specific confirmation.
+4. Is personal memory involved? Keep the capability available, but persist personal content only with explicit consent. New personal memory starts quarantined.
 
-```
-Is the task trivial? (e.g. "what's 2+2", "format this string", "summarize this 200-word email")
-├── YES -> Answer directly. Stop. Do not loop. Do not verify. Do not reflect.
-└── NO -> continue
+Uncertainty raises the gate; it never grants more autonomy.
 
-Is the task reversible and low-stakes? (e.g. "draft an email", "suggest a function name")
-├── YES -> Do it once. Show the result. Stop. No loop needed.
-└── NO -> continue
+## 2. Write a minimal contract
 
-Does the task have a verifiable success criteria? (e.g. "tests pass", "lint clean", "API returns 200")
-├── NO -> Define the success criteria first. If you can't, ask the user.
-└── YES -> continue
+Define the goal, success evidence, acceptable harm, action boundary, time/cost/iteration budgets, stop conditions, and decision owner. If success cannot be observed, define a reversible experiment instead of pretending the task is verifiable.
 
-Is the task complex enough to fail on the first try? (e.g. multi-file refactor, debugging, research)
-├── NO -> Execute once, verify against the criteria, done.
-└── YES -> continue
+## 3. Generate the smallest useful behavior
 
-Choose a loop pattern based on the failure mode (see below).
-```
+| Situation | Behavior |
+|---|---|
+| Low-risk fact or formatting | answer directly |
+| Reversible, low-stakes action | do once |
+| Simple but objectively checkable | execute + verify |
+| Unknown steps | `react` |
+| Known plan may be executed incorrectly | `plan-execute` |
+| Attempt can be objectively tested and retried | `reflexion` |
+| Artifact needs bounded polishing | `self-refine` |
+| Independent perspectives materially reduce error | `multi-agent` |
+| Meaningful choice under uncertainty | `decision` |
+| Repeated behavior and environment design | `habit` |
+| Periodic reflection from observations | `life-review` |
 
-## Choose a loop pattern by failure mode
+The table contains optional primitives, not a closed list. The model may use none, choose one, compose several, or generate a task-specific bounded strategy. Write initial step hypotheses, adaptation rules, success evidence, stop conditions, and a budget. On each iteration, observe first and let the model choose the next action; do not execute the initial plan as a rigid checklist. A decision loop may use research, but research must not silently make the decision.
 
-| If the task can fail because... | Use this pattern | Why |
-|---|---|---|
-| You don't know all the steps upfront | `core/patterns/react` | Reason + Act, figure it out as you go |
-| You know the steps but might do them wrong | `core/patterns/plan-execute` | Plan first, then execute |
-| First attempt likely wrong, needs self-correction | `core/patterns/reflexion` | Try, reflect on failure, retry |
-| Output needs iterative polishing | `core/patterns/self-refine` | Generate, critique, refine |
-| Needs multiple perspectives/roles | `core/patterns/multi-agent` | Spawn specialized agents |
+## 4. Run gates around every action
 
-## When NOT to loop (hard rules)
+Before action: check scope, reversibility, other people, privacy, cost, and confirmation. After action: collect fresh evidence, check harm and side effects, then label the outcome `completed`, `partial`, `blocked`, `failed`, or `escalated`.
 
-Do NOT loop if any of these are true:
+An empty verifier, verifier exception, missing evidence, or ambiguous completion signal cannot produce `completed`.
 
-1. **The task is a single, well-defined action.** Just do it.
-2. **The output is subjective.** (e.g. "write a creative intro") Looping won't help.
-3. **The cost of looping exceeds the value.** (e.g. a $0.50 API call to verify a $0.01 task)
-4. **The user asked for speed over correctness.** Respect that.
-5. **You've already looped 3 times.** Stop. Escalate to the user with what you have.
+## 5. Stop responsibly
 
-## The 3 priorities (auto-balanced, don't ask the user)
+Stop on success with evidence, budget exhaustion, cancellation, repeated state, new risk, loss of authority, or failed verification after the retry limit. Return what is known, what is uncertain, what changed, and the safest next step.
 
-Every task has a hidden priority tradeoff between **effect**, **cost**, and **efficiency**. You decide based on context:
+## Non-goals
 
-| Task type | Priority | Default behavior |
-|---|---|---|
-| Production bugfix, data migration, irreversible action | Effect first | Use reflexion + verifier, accept cost |
-| One-off draft, internal tool, prototype | Efficiency first | Single pass + self-refine, skip verifier |
-| Expensive API, batch processing, token-heavy | Cost first | Free model first, minimal loop rounds |
-| Exploration, research, unknown territory | Effect first | Use react, accept multiple rounds |
-
-**Do not ask the user "do you want effect/cost/efficiency?"** Decide based on the task. Only ask if the tradeoff is genuinely ambiguous and high-stakes.
-
-## Human-in-the-loop: only 3 cases
-
-Only pause for human confirmation when:
-
-1. **Irreversible action** - delete, deploy, payment, send email to many
-2. **User data mutation** - modify database, write to user storage
-3. **Cost exceeds threshold** - >$1 per action, or >$10 per session
-
-Everything else: decide and act.
-
-## How to use the rest of this framework
-
-1. Read this skill -> decide if you need a loop
-2. If yes, pick a pattern from `core/patterns/`
-3. If you're writing a new loop from scratch, read `write-a-loop/` first
-4. Look at `examples/` for few-shot templates
-5. Use `core/components/` for reusable pieces (verify, decompose, reflect)
+Oh My Loop is not an emergency service, therapist, doctor, lawyer, financial adviser, moral authority, or autonomous life manager. It helps people inspect choices and run reversible experiments.
 
 ## Related
 
-- [write-a-loop](../write-a-loop/SKILL.md) - How to design a new loop
-- [core/patterns/](../core/patterns/) - Reusable loop patterns
-- [core/components/](../core/components/) - Reusable loop components
-- [examples/](../examples/) - Few-shot examples by domain
+- [Design a loop](../write-a-loop/SKILL.md)
+- [Risk and consent](../core/components/risk-and-consent/SKILL.md)
+- [Memory governance](../core/components/memory-governance/SKILL.md)
+- [Trust model](../docs/en/trust-model.md)

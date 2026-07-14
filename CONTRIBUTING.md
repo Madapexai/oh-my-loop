@@ -11,6 +11,8 @@ A new pattern is accepted if:
 - It has a clear "when to use / when NOT to use"
 - It has termination conditions (no infinite loops)
 - It has at least one end-to-end example
+- It declares decision ownership, action authority, evidence, harm guardrails, budgets, and memory policy
+- It includes adversarial tests for empty/broken verification, cancellation, stagnation, and relevant safety boundaries
 
 ### New examples
 
@@ -30,7 +32,9 @@ Improvements are accepted if:
 - Company-specific SOPs disguised as generic patterns
 - "Loop for everything" wrappers (if it's one step, just do it)
 - Patterns without failure-mode analysis
-- Patterns that ask the user to choose instead of deciding based on context
+- Patterns that silently choose for users in consequential life decisions
+- Changes that improve an aggregate score while reducing safety-critical recall
+- Claims of accuracy, safety, or wellbeing improvement without reproducible evidence and provenance
 - Anything that bakes in a specific tool/vendor
 
 ## How to contribute
@@ -38,7 +42,7 @@ Improvements are accepted if:
 1. Fork the repo
 2. Read [using-oh-my-loop](using-oh-my-loop/SKILL.md) and [write-a-loop](write-a-loop/SKILL.md) first
 3. Create your pattern/example following the existing structure
-4. Test it against at least 3 scenarios
+4. Test its happy path and every declared failure mode, including at least one adversarial case
 5. Open a PR with:
    - The new file(s)
    - A brief explanation of what failure mode it addresses
@@ -52,6 +56,8 @@ Improvements are accepted if:
 - Use progressive disclosure: short SKILL.md, details in references/
 - Every pattern must have termination conditions
 - Every pattern must have a degradation path
+- Required safety and evidence gates must fail closed and cannot be skipped as degradation
+- Clearly label internal regression fixtures; do not present them as independent evaluation
 
 ## License
 

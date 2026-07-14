@@ -1,0 +1,24 @@
+{
+  "name": "oh-my-loop",
+  "version": "0.6.0",
+  "description": "Zero-dependency CLI and Agent Skill for safe coding and life loops",
+  "type": "module",
+  "bin": {
+    "oh-my-loop": "bin/oh-my-loop.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check bin/oh-my-loop.mjs && node --check lib/model-router.mjs && node --check lib/runtime.mjs && node --check lib/storage.mjs && node --check lib/team.mjs"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "skills/oh-my-loop/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

@@ -37,12 +37,12 @@ Reflector: learn from any failures
 - **Entry**: task is complex enough to warrant multiple agents
 - **Exit**: verifier passes, or 2 rounds exhausted
 - **Failure**: 2 rounds fail -> escalate to user with analysis
-- **Coordination**: agents communicate via shared state, not direct messages
+- **Coordination**: agents receive immutable snapshots and return versioned proposals. A coordinator validates and merges; no role silently mutates another role's state.
 
 ## Constraints
 
 - **Cost budget**: parallel agents multiply cost; budget accordingly
-- **Degradation**: if budget low, drop Reflector first, then merge Executor roles
+- **Degradation**: if budget is low, stop with a partial result or merge non-safety roles. Never remove an independent verifier required by the contract.
 - **Human-in-loop**: if any agent proposes irreversible action, pause
 
 ## Roles and when to spawn them
@@ -55,6 +55,8 @@ Reflector: learn from any failures
 | Reflector | First attempt failed and cause is unclear |
 
 **Do not spawn all 4 by default.** Only spawn what the failure modes demand.
+
+Role names do not create independence. Use different evidence, prompts, tools, or reviewers where correlated error matters, and disclose when several roles are the same model. The verifier cannot approve its own unsupported assertion.
 
 ## Example
 

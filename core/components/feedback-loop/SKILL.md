@@ -27,9 +27,9 @@ A loop that doesn't learn from its outcomes will repeat the same mistakes.
 - **Cost** - tokens / time / API calls
 - **What to change** - pattern adjustment
 
-## Storage
+## Storage and consent
 
-Store feedback in a simple JSON or markdown file. Don't over-engineer:
+Persistence is off by default. Ask for explicit consent before storing task text or personal outcomes; minimize or redact sensitive content, define retention, and support correction and deletion. New personal learnings should be quarantined until reviewed. A local JSON example is suitable only for non-secret, low-sensitivity use:
 
 ```json
 {
@@ -49,7 +49,10 @@ Store feedback in a simple JSON or markdown file. Don't over-engineer:
 - **Feedback without action** - recording outcomes but never updating patterns
 - **Over-recording** - storing every detail -> noise drowns signal
 - **Never purging** - old failures dominate; keep recent N, archive the rest
+- **Silent persistence** - useful data is still personal data; no consent means no write
+- **Poisoned learning** - one incorrect outcome must not become an active rule without review and provenance
 
 ## Related
 
 - [self-refine](../../patterns/self-refine/SKILL.md) - Uses feedback to refine
+- [memory-governance](../memory-governance/SKILL.md) - Consent, quarantine, correction, and forgetting

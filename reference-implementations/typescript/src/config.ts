@@ -1,13 +1,10 @@
 /** Configuration for loop patterns. All limits are tunable. */
 
 export interface LoopConfig {
-  /** react: max iterations before giving up.
-   * Why 10? Empirical: most exploration tasks converge within 5-8 steps.
-   * (Reflexion paper, Shinn et al. 2023, shows diminishing returns after ~6) */
+  /** Conservative starter limit; calibrate for the domain. */
   reactMaxIterations: number;
 
-  /** reflexion: max attempts before escalating.
-   * Why 3? Reflexion paper shows 3rd attempt rarely improves; 4th+ is noise */
+  /** Retry limit; retries are not evidence of improvement. */
   reflexionMaxAttempts: number;
 
   /** plan-execute: max re-plans before escalating.
@@ -21,6 +18,17 @@ export interface LoopConfig {
   /** multi-agent: max rounds of plan-execute-verify-reflect.
    * Why 2? Each round doubles cost; more than 2 means task is too complex */
   multiAgentMaxRounds: number;
+
+  /** Wall-clock budget for a loop run. */
+  timeBudgetMs: number;
+
+  /** Stop if the same effective state repeats this many times. */
+  maxStagnantIterations: number;
+
+  /** Memory capability is available by default; candidates remain quarantined. */
+  memoryEnabled: boolean;
+  captureMemoryCandidates: boolean;
+  activateMemoryAfterReview: boolean;
 
   /** cost budget (in tokens). null = unlimited */
   costBudgetTokens: number | null;
@@ -42,10 +50,15 @@ export const defaultConfig: LoopConfig = {
   planExecuteMaxReplans: 2,
   selfRefineMaxRounds: 3,
   multiAgentMaxRounds: 2,
+  timeBudgetMs: 120000,
+  maxStagnantIterations: 2,
+  memoryEnabled: true,
+  captureMemoryCandidates: true,
+  activateMemoryAfterReview: true,
   costBudgetTokens: null,
   humanConfirmCostThreshold: 10000,
-  primaryModel: "gpt-4o",
-  cheapModel: "gpt-4o-mini",
+  primaryModel: "primary",
+  cheapModel: "economy",
   cheapModelThreshold: 0.5,
 };
 
